@@ -2,21 +2,22 @@
 #include <bits/stdc++.h>
 #include <SFML/Graphics.hpp>
 
-struct button {
+struct Button {
     sf::Vector2f pos;
     sf::Vector2f sz;
     sf::Color color;
     bool hover;
     bool click;
-    button() {
+
+    Button() {
         pos = {0, 0};
         sz = {100, 100};
-        color = {64, 64, 64};
         hover = 0;
         click = 0;
     }
+
     sf::Vector2i mpos;
-    void checkMouse() {
+    void check() {
         mpos = sf::Mouse::getPosition(window);
         hover = 0;
         click = 0;
@@ -27,15 +28,17 @@ struct button {
             }
         }
     }
+
     void tick() {
-        color = {67, 67, 67};
+        color = {192, 192, 192};
         if (hover) {
-            color = {57, 57, 57};
+            color = {160, 160, 160};
             if (click) {
-                color = {47, 47, 47};
+                color = {128, 128, 128};
             }
         }
     }
+
     void display() {
         sf::RectangleShape box;
         box.setPosition(pos);

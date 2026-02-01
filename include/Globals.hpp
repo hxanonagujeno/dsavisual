@@ -4,3 +4,4 @@
 
 extern sf::RenderWindow window;
 extern sf::Event event;
+extern sf::Font font;
