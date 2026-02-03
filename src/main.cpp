@@ -3,33 +3,35 @@
 #include <SFML/Graphics.hpp>
 #include <Globals.hpp>
 #include <Button.hpp>
+#include <Controls.hpp>
 #include <Textform.hpp>
+#include <Data.hpp>
 
 sf::RenderWindow window(sf::VideoMode(720, 480), "dsavisual", sf::Style::Titlebar | sf::Style::Close);
 sf::Event event;
 sf::Font font;
 
-Button button;
-Textform textform;
+Controls controls;
+Data data;
 
 void init() {
     font.loadFromFile("assets/segoeui.ttf");
 }
 
 void check() {
-    button.check();
-    textform.check();
+    controls.check();
+    data.check();
 }
 
 void tick() {
-    button.tick();
-    textform.tick();
+    controls.tick();
+    data.tick();
 }
 
 void display() {
     window.clear();
-    button.display();
-    textform.display();
+    controls.display();
+    data.display();
     window.display();
 }
 

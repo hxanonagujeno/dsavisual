@@ -11,11 +11,11 @@ struct Textform {
     int lim;
     char buf;
 
-    Textform() {
-        pos = {0, 100};
+    Textform(const sf::Vector2f &_pos = sf::Vector2f{0.f, 0.f}) {
+        pos = _pos;
         sz = {200, 20};
         focus = 0;
-        lim = sz.x / sz.y - 1;
+        lim = 1.2f * sz.x / sz.y - 1;
         text = "";
     }
 
@@ -85,7 +85,6 @@ struct Textform {
     }
 
     void tick() {
-        if (buf > 0) std::cout << "tick: " << (int)buf << std::endl;
         tickcolor();
         ticktext();
     }
@@ -96,7 +95,7 @@ struct Textform {
         box.setSize(sz);
         box.setFillColor(color);
         sf::Text chars;
-        chars.setPosition(pos);
+        chars.setPosition(pos + sf::Vector2f{0.0f, -2.0f});
         chars.setFont(font);
         chars.setCharacterSize(sz.y);
         chars.setFillColor({36, 36, 36});
