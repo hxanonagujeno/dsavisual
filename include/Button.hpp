@@ -9,7 +9,7 @@ struct Button {
     bool hover;
     bool click;
 
-    Button(const sf::Vector2f &_pos = zero2f, const sf::Vector2f &_sz = sf::Vector2f{100.f, 100.f}) {
+    Button(const sf::Vector2f& _pos = zero2f, const sf::Vector2f& _sz = sf::Vector2f{100.0f, 100.0f}) {
         pos = _pos;
         sz = _sz;
         hover = 0;
@@ -39,8 +39,8 @@ struct Button {
         }
     }
 
+    sf::RectangleShape box;
     void display() {
-        sf::RectangleShape box;
         box.setPosition(pos);
         box.setSize(sz);
         box.setFillColor(color);

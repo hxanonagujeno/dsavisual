@@ -1,6 +1,7 @@
 #pragma once
 #include <bits/stdc++.h>
 #include <SFML/Graphics.hpp>
+#include <Globals.hpp>
 
 struct Textform {
     sf::Vector2f pos;
@@ -11,7 +12,7 @@ struct Textform {
     int lim;
     char buf;
 
-    Textform(const sf::Vector2f &_pos = sf::Vector2f{0.f, 0.f}) {
+    Textform(const sf::Vector2f& _pos = zero2f) {
         pos = _pos;
         sz = {200, 20};
         focus = 0;
@@ -89,17 +90,19 @@ struct Textform {
         ticktext();
     }
 
+    sf::RectangleShape box;
+    sf::Text chars;
     void display() {
-        sf::RectangleShape box;
         box.setPosition(pos);
         box.setSize(sz);
         box.setFillColor(color);
-        sf::Text chars;
+        
         chars.setPosition(pos + sf::Vector2f{0.0f, -2.0f});
         chars.setFont(font);
         chars.setCharacterSize(sz.y);
         chars.setFillColor({36, 36, 36});
         chars.setString(text);
+        
         window.draw(box);
         window.draw(chars);
     }

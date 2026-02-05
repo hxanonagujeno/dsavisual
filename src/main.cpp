@@ -6,6 +6,7 @@
 #include <Controls.hpp>
 #include <Textform.hpp>
 #include <Data.hpp>
+#include <Graph.hpp>
 
 sf::RenderWindow window(sf::VideoMode(720, 480), "dsavisual", sf::Style::Titlebar | sf::Style::Close);
 sf::Event event;
@@ -13,25 +14,30 @@ sf::Font font;
 
 Controls controls;
 Data data;
+Graph graph;
 
 void init() {
+    srand(time(0));
     font.loadFromFile("assets/segoeui.ttf");
 }
 
 void check() {
     controls.check();
     data.check();
+    graph.check();
 }
 
 void tick() {
     controls.tick();
     data.tick();
+    graph.tick();
 }
 
 void display() {
     window.clear();
     controls.display();
     data.display();
+    graph.display();
     window.display();
 }
 

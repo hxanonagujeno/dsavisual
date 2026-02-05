@@ -1,8 +1,8 @@
 #pragma once
 #include <bits/stdc++.h>
 #include <SFML/Graphics.hpp>
-#include <Textform.hpp>
 #include <Globals.hpp>
+#include <Textform.hpp>
 
 struct Data {
     std::vector<Textform> textforms;
