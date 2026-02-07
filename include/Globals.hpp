@@ -19,6 +19,10 @@ int rani() {
 	return s;
 }
 
+int rani(int l, int r) {
+    return abs(rani()) % (r - l + 1) + l;
+}
+
 int sqr(int x) {
     return x * x;
 }
@@ -34,6 +38,10 @@ int sqrlen(const sf::Vector2i& a) {
 sf::Vector2f sizes(const sf::FloatRect& a) {
     return sf::Vector2f(a.width, a.height);
 }
+
+bool animating = 0;
+
+bool buttonevent[100];
 
 int gnodesize = 24;
 

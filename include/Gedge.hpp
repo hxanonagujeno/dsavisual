@@ -8,6 +8,7 @@ struct Gedge {
     Gnode* a; Gnode* b;
     int weight;
     sf::Color color;
+    int id;
 
     Gedge(Gnode& _a, Gnode& _b) {
         a = &_a, b = &_b;
@@ -15,6 +16,15 @@ struct Gedge {
         color = {128, 128, 128};
         ends[0].color = {36, 36, 36};
         ends[1].color = {36, 36, 36};
+        id = rani();
+    }
+
+    void copy(const Gedge &x, bool copyid = 1) {
+        a = x.a;
+        b = x.b;
+        weight = x.weight;
+        color = x.color;
+        if (copyid) id = x.id;
     }
 
     void check() {

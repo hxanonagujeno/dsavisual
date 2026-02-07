@@ -18,6 +18,13 @@ struct Gnode {
         id = rani();
     }
 
+    void copy(const Gnode& x, bool copyid = 1) {
+        pos = x.pos;
+        color = x.color;
+        text = x.text;
+        if (copyid) id = x.id;
+    }
+
     sf::Vector2i mpos;
     sf::Vector2i mdis;
     void check() {

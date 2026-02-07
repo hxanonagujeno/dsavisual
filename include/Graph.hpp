@@ -45,4 +45,20 @@ struct Graph {
             t.display();
         }
     }
+
+    void randomize() {
+        std::cerr << "RANDOMIZE() CALLED" << std::endl;
+        gnodes.clear();
+        gedges.clear();
+        int N = rani(2, 6);
+        int M = rani(0, rani(1, N * (N - 1) / 2));
+        for (int i = 1; i <= N; i++) {
+            int x = rani(240 + gnodesize, 720 - gnodesize), y = rani(gnodesize, 480 - gnodesize);
+            gnodes.emplace_back(std::to_string(i), sf::Vector2f{1.0f * x, 1.0f * y});
+        }
+        for (int i = 1; i <= M; i++) {
+            gedges.emplace_back(gnodes[rani(0, N - 1)], gnodes[rani(0, N - 1)]);
+        }
+        std::cerr << N << " " << M << std::endl;
+    }
 };
