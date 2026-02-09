@@ -47,7 +47,6 @@ struct Graph {
     }
 
     void randomize() {
-        std::cerr << "RANDOMIZE() CALLED" << std::endl;
         gnodes.clear();
         gedges.clear();
         int N = rani(2, 6);

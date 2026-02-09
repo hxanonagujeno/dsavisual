@@ -24,6 +24,9 @@ void init() {
     font.loadFromFile("assets/segoeui.ttf");
     graph.randomize();
     graph2.randomize();
+    for (int i = 0; i < std::min((int)graph.gnodes.size(), (int)graph2.gnodes.size()); i++) {
+        graph2.gnodes[i].id = graph.gnodes[i].id;
+    }
 }
 
 void check() {
@@ -38,7 +41,11 @@ void tick() {
     data.tick();
     graph.tick();
     graph2.tick();
-    animations.tick(graph, graph2, 2.0f);
+    if (rand() & 1) {
+        animations.tick(graph, graph2, 2.0f);
+    } else {
+        animations.tick(graph2, graph, 2.0f);
+    }
 }
 
 void display() {
