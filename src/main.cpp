@@ -8,11 +8,13 @@
 #include <Data.hpp>
 #include <Graph.hpp>
 #include <Animations.hpp>
+#include <Background.hpp>
 
 sf::RenderWindow window(sf::VideoMode(720, 480), "dsavisual", sf::Style::Titlebar | sf::Style::Close);
 sf::Event event;
 sf::Font font;
 
+Background background;
 Controls controls;
 Data data;
 Graph graph;
@@ -50,6 +52,7 @@ void tick() {
 
 void display() {
     window.clear();
+    background.display();
     controls.display();
     data.display();
     if (animating) {
@@ -61,6 +64,7 @@ void display() {
     window.display();
 }
 
+bool polled;
 int main() {
     init();
     while (window.isOpen()) {
@@ -70,8 +74,8 @@ int main() {
                 return 0;
             }
             check();
+            tick();
         }
-        tick(); 
         display();
     }
     return 0;

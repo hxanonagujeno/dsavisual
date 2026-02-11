@@ -8,10 +8,10 @@ struct Controls {
     std::vector<Button> buttons;
 
     Controls() {
-        buttons.emplace_back(sf::Vector2f{0.000f, 0.0f}, sf::Vector2f{100.0f, 100.0f}, 1);
-        buttons.emplace_back(sf::Vector2f{100.0f, 0.0f}, sf::Vector2f{100.0f, 100.0f});
-        buttons.emplace_back(sf::Vector2f{200.0f, 0.0f}, sf::Vector2f{100.0f, 100.0f});
-        buttons.emplace_back(sf::Vector2f{300.0f, 0.0f}, sf::Vector2f{100.0f, 100.0f});
+        buttons.emplace_back(sf::Vector2f{0.000f, 0.0f}, sf::Vector2f{100.0f, 100.0f}, "PLAY", 1);
+        buttons.emplace_back(sf::Vector2f{100.0f, 0.0f}, sf::Vector2f{100.0f, 100.0f}, "SAMPLE");
+        buttons.emplace_back(sf::Vector2f{200.0f, 0.0f}, sf::Vector2f{100.0f, 100.0f}, "SAMPLE");
+        buttons.emplace_back(sf::Vector2f{300.0f, 0.0f}, sf::Vector2f{100.0f, 100.0f}, "SAMPLE");
     }
 
     void check() {

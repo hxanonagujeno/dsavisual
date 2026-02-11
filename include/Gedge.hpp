@@ -39,7 +39,7 @@ struct Gedge {
         
         chars.setFont(font);
         chars.setCharacterSize((2.0f * gnodesize - 10.0f) / (floor(log10(std :: max(1, abs(weight))))));
-        chars.setFillColor({36, 36, 36});
+        chars.setFillColor(onyx);
         chars.setString(std::to_string(weight));
         chars.setPosition(0.5f * (ends[0].position + ends[1].position));
 

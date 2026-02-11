@@ -56,16 +56,16 @@ struct Gnode {
     sf::CircleShape box;
     sf::Text chars;
     void display() {
+        box.setRadius(gnodesize);
         box.setOrigin({1.0f * gnodesize, 1.0f * gnodesize});
         box.setPosition(pos);
-        box.setRadius(gnodesize);
         box.setFillColor(color);
         
         chars.setFont(font);
-        chars.setCharacterSize((2.0f * gnodesize - 10.0f) / text.size());
-        chars.setFillColor({36, 36, 36});
+        chars.setCharacterSize((1.5f * gnodesize - 10.0f) / text.size());
         chars.setString(text);
-        chars.setPosition(pos + sf::Vector2f{0.0f, -2.0f} - 0.5f * sizes(chars.getLocalBounds()));
+        chars.setPosition(pos - 0.5f * sizes(chars.getLocalBounds()) - poses(chars.getLocalBounds()));
+        chars.setFillColor(onyx);
 
         window.draw(box);
         window.draw(chars);

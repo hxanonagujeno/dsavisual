@@ -6,14 +6,16 @@ struct Button {
     sf::Vector2f pos;
     sf::Vector2f sz;
     sf::Color color;
+    std::string text;
     int id;
     bool hover;
     bool click;
     bool hold;
 
-    Button(const sf::Vector2f& _pos = zero2f, const sf::Vector2f& _sz = sf::Vector2f{100.0f, 100.0f}, int _id = 0) {
+    Button(const sf::Vector2f& _pos = zero2f, const sf::Vector2f& _sz = sf::Vector2f{100.0f, 100.0f}, const std::string& _text = "", int _id = 0) {
         pos = _pos;
         sz = _sz;
+        text = _text;
         id = _id;
         hover = 0;
         click = 0;
@@ -37,11 +39,11 @@ struct Button {
     }
 
     void tick() {
-        color = {192, 192, 192};
+        color = silver;
         if (hover) {
-            color = {160, 160, 160};
+            color = slate;
             if (click) {
-                color = {128, 128, 128};
+                color = gray;
                 if (!hold) {
                     buttonevent[id] = 1;
                 }
@@ -51,10 +53,19 @@ struct Button {
     }
 
     sf::RectangleShape box;
+    sf::Text chars;
     void display() {
         box.setPosition(pos);
         box.setSize(sz);
         box.setFillColor(color);
+
+        chars.setFont(font);
+        chars.setCharacterSize((1.0f * sz.x - 10.0f) / text.size());
+        chars.setString(text);
+        chars.setPosition(pos - 0.5f * sizes(chars.getLocalBounds()) - poses(chars.getLocalBounds()) + 0.5f * sz);
+        chars.setFillColor(onyx);
+
         window.draw(box);
+        window.draw(chars);
     }
 };

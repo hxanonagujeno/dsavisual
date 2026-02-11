@@ -60,9 +60,9 @@ struct Textform {
 
     void tickcolor() {
         if (focus) {
-            color = {210, 210, 210};
+            color = slate;
         } else {
-            color = {240, 240, 240};
+            color = silver;
         }
     }
 
@@ -100,7 +100,7 @@ struct Textform {
         chars.setPosition(pos + sf::Vector2f{0.0f, -2.0f});
         chars.setFont(font);
         chars.setCharacterSize(sz.y);
-        chars.setFillColor({36, 36, 36});
+        chars.setFillColor(onyx);
         chars.setString(text);
         
         window.draw(box);

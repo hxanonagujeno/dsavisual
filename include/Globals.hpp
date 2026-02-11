@@ -3,7 +3,13 @@
 #include <SFML/Graphics.hpp>
 
 sf::Vector2f zero2f = {0.0f, 0.0f};
+sf::Color ivory = {232, 232, 232};
 sf::Color silver = {192, 192, 192};
+sf::Color slate = {160, 160, 160};
+sf::Color gray = {128, 128, 128};
+sf::Color onyx = {36, 36, 36};
+sf::Color transparent = {0, 0, 0, 128};
+sf::Color solid = {0, 0, 0, 255};
 
 template<class T> bool mnz(T& x, const T& y) {
     return (x > y? (x = y, 1): 0);
@@ -33,6 +39,10 @@ int sqrdis(const sf::Vector2i& a, const sf::Vector2i& b) {
 
 int sqrlen(const sf::Vector2i& a) {
     return sqr(a.x) + sqr(a.y);
+}
+
+sf::Vector2f poses(const sf::FloatRect& a) {
+    return sf::Vector2f(a.left, a.top);
 }
 
 sf::Vector2f sizes(const sf::FloatRect& a) {

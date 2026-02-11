@@ -56,17 +56,7 @@ struct Animations {
         }
     }
 
-    void tick(const Graph& G, const Graph& H, float t) {
-        if (!animating) {
-            if (buttonevent[1]) {
-                animating = 1;
-                play(G, H);
-                start = clock();
-                duration = t * CLOCKS_PER_SEC;
-                buttonevent[1] = 0;
-            }
-            return;
-        }
+    void tick() {
         float r = 1.0f * (clock() - start) / duration;
         if (r > 1) {
             animating = 0;
@@ -89,8 +79,23 @@ struct Animations {
             F.gedges[i].color.a = (R * g.gedges[i].color.a + r * h.gedges[i].color.a);
         }
     }
+
+    void tick(const Graph& G, const Graph& H, float t) {
+        if (!animating) {
+            if (buttonevent[1]) {
+                animating = 1;
+                play(G, H);
+                start = clock();
+                duration = t * CLOCKS_PER_SEC;
+                buttonevent[1] = 0;
+            }
+            return;
+        }
+        tick();
+    }
     
     void display() {
+        tick();
         if (animating) {
             F.display();
         }

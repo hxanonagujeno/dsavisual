@@ -38,10 +38,10 @@ struct Graph {
     }
 
     void display() {
-        for (Gnode& t: gnodes) {
+        for (Gedge& t: gedges) {
             t.display();
         }
-        for (Gedge& t: gedges) {
+        for (Gnode& t: gnodes) {
             t.display();
         }
     }
