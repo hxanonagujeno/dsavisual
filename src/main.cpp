@@ -68,6 +68,7 @@ bool polled;
 int main() {
     init();
     while (window.isOpen()) {
+        polled = 0;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window.close();
@@ -75,8 +76,13 @@ int main() {
             }
             check();
             tick();
+            display();
+            polled = 1;
         }
-        display();
+        if (!polled) {
+            tick();
+            display();
+        }
     }
     return 0;
 }

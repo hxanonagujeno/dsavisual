@@ -24,6 +24,7 @@ struct Button {
 
     sf::Vector2i mpos;
     void check() {
+        if (animating) return;
         mpos = sf::Mouse::getPosition(window);
         hover = 0;
         click = 0;
@@ -39,6 +40,13 @@ struct Button {
     }
 
     void tick() {
+        if (animating) {
+            color = gray;
+            hover = 0;
+            click = 0;
+            hold = 0;
+            return;
+        }
         color = silver;
         if (hover) {
             color = slate;

@@ -9,19 +9,19 @@ struct Data {
     bool focus;
     bool add;
     bool del;
+    int arrow;
 
     Data() {
         textforms.emplace_back(sf::Vector2f{0.0f, 100.0f});
         focus = 0;
         add = 0;
         del = 0;
+        arrow = 0;
     }
 
     void checktextforms() {
-        focus = 0;
         for (Textform& t: textforms) {
             t.check();
-            focus |= t.focus;
         }
     }
 
@@ -35,6 +35,14 @@ struct Data {
                 del = 1;
                 return;
             }
+            if (event.key.code == sf::Keyboard::Up) {
+                arrow = -1;
+                return;
+            }
+            if (event.key.code == sf::Keyboard::Down) {
+                arrow = 1;
+                return;
+            }
         }
     }
 
@@ -44,18 +52,41 @@ struct Data {
     }
 
     void tick() {
-        for (Textform& t: textforms) {
-            t.tick();
+        int n = (int)textforms.size();
+        int p = -1;
+        for (int i = 0; i < n; i++) {
+            textforms[i].tick();
+            if (textforms[i].focus) {
+                p = i;
+            }
         }
-        if (!focus) return;
+        if (p == -1) return;
         if (add) {
-            textforms.emplace_back(sf::Vector2f{0.0f, 100.0f + 20.0f * textforms.size()});
+            textforms.emplace(textforms.begin() + p + 1, sf::Vector2f{0.0f, 100.0f + 20.0f * p});
+            for (int i = p + 1; i <= n; i++) {
+                textforms[i].pos += {0.0f, 20.0f};
+            }
+            textforms[p].focus = 0;
+            textforms[p + 1].focus = 1;
             add = 0;
             return;
         }
         if (del) {
-            textforms.pop_back();
+            if (p == n - 1) {
+                del = 0;
+                return;
+            }
+            textforms.erase(textforms.begin() + p + 1);
+            for (int i = p + 1; i < n - 1; i++) {
+                textforms[i].pos += {0.0f, -20.0f};
+            }
             del = 0;
+            return;
+        }
+        if (arrow != 0) {
+            textforms[p].focus = 0;
+            textforms[std::max(0, std::min(n - 1, p + arrow))].focus = 1;
+            arrow = 0;
             return;
         }
     }

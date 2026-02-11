@@ -95,9 +95,7 @@ struct Animations {
     }
     
     void display() {
-        tick();
-        if (animating) {
-            F.display();
-        }
+        if (!animating) return;
+        F.display();
     }
 };

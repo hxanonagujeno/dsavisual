@@ -54,6 +54,7 @@ struct Textform {
     }
 
     void check() {
+        if (animating) return;
         checkfocus();
         checktype();
     }
@@ -72,20 +73,30 @@ struct Textform {
             if (text.size()) {
                 text.pop_back();
             }
+            buf = 0;
             return;
         }
-        if ((int)text.size() == lim) return;
+        if ((int)text.size() == lim) {
+            buf = 0;
+            return;
+        }
         if (buf == ' ') {
             if (!text.empty() && text.back() != ' ') {
                 text += ' ';
             }
+            buf = 0;
             return;
         }
         text += buf;
+        buf = 0;
         return;
     }
 
     void tick() {
+        if (animating) {
+            color = slate;
+            return;
+        }
         tickcolor();
         ticktext();
     }
