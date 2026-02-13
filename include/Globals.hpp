@@ -51,10 +51,16 @@ sf::Vector2f sizes(const sf::FloatRect& a) {
 
 bool animating = 0;
 
-bool buttonevent[100];
+bool buttonevent[128];
+
+bool keyboardvis[256];
 
 int gnodesize = 24;
 
 extern sf::RenderWindow window;
 extern sf::Event event;
 extern sf::Font font;
+
+void reglobe() {
+    memset(keyboardvis, 0, sizeof(keyboardvis));
+}

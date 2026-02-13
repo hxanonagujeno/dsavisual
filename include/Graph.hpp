@@ -58,6 +58,10 @@ struct Graph {
         for (int i = 1; i <= M; i++) {
             gedges.emplace_back(gnodes[rani(0, N - 1)], gnodes[rani(0, N - 1)]);
         }
-        std::cerr << N << " " << M << std::endl;
+    }
+
+    void clear() {
+        gnodes.clear();
+        gedges.clear();
     }
 };

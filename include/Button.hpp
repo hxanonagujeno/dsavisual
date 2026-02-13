@@ -8,11 +8,12 @@ struct Button {
     sf::Color color;
     std::string text;
     int id;
+    int fontsz;
     bool hover;
     bool click;
     bool hold;
 
-    Button(const sf::Vector2f& _pos = zero2f, const sf::Vector2f& _sz = sf::Vector2f{100.0f, 100.0f}, const std::string& _text = "", int _id = 0) {
+    Button(const sf::Vector2f& _pos = zero2f, const sf::Vector2f& _sz = sf::Vector2f{100.0f, 100.0f}, const std::string& _text = "", int _id = 0, int _fontsz = -1) {
         pos = _pos;
         sz = _sz;
         text = _text;
@@ -20,6 +21,7 @@ struct Button {
         hover = 0;
         click = 0;
         hold = 0;
+        fontsz = _fontsz;
     }
 
     sf::Vector2i mpos;
@@ -28,7 +30,7 @@ struct Button {
         mpos = sf::Mouse::getPosition(window);
         hover = 0;
         click = 0;
-        if (pos.x <= mpos.x && mpos.x <= pos.x + sz.x && pos.y <= mpos.y && mpos.y <= pos.y + sz.y) {
+        if (pos.x <= mpos.x && mpos.x < pos.x + sz.x && pos.y <= mpos.y && mpos.y < pos.y + sz.y) {
             hover = 1;
             if (!hold && event.type == sf::Event::MouseButtonPressed) {
                 click = 1;
@@ -68,7 +70,7 @@ struct Button {
         box.setFillColor(color);
 
         chars.setFont(font);
-        chars.setCharacterSize((1.0f * sz.x - 10.0f) / text.size());
+        chars.setCharacterSize(fontsz > 0? fontsz: (1.2f * sz.x) / (int)text.size());
         chars.setString(text);
         chars.setPosition(pos - 0.5f * sizes(chars.getLocalBounds()) - poses(chars.getLocalBounds()) + 0.5f * sz);
         chars.setFillColor(onyx);

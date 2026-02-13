@@ -80,18 +80,12 @@ struct Animations {
         }
     }
 
-    void tick(const Graph& G, const Graph& H, float t) {
-        if (!animating) {
-            if (buttonevent[1]) {
-                animating = 1;
-                play(G, H);
-                start = clock();
-                duration = t * CLOCKS_PER_SEC;
-                buttonevent[1] = 0;
-            }
-            return;
-        }
-        tick();
+    void load(const Graph& G, const Graph& H, float t) {
+        animating = 1;
+        play(G, H);
+        start = clock();
+        duration = t * CLOCKS_PER_SEC;
+        buttonevent[1] = 0;
     }
     
     void display() {

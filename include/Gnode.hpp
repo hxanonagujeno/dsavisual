@@ -62,7 +62,7 @@ struct Gnode {
         box.setFillColor(color);
         
         chars.setFont(font);
-        chars.setCharacterSize((1.5f * gnodesize - 10.0f) / text.size());
+        chars.setCharacterSize((5.0f * gnodesize) / (3 + (int)text.size()));
         chars.setString(text);
         chars.setPosition(pos - 0.5f * sizes(chars.getLocalBounds()) - poses(chars.getLocalBounds()));
         chars.setFillColor(onyx);

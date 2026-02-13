@@ -12,19 +12,20 @@ struct Textform {
     int lim;
     char buf;
 
-    Textform(const sf::Vector2f& _pos = zero2f) {
+    Textform(const sf::Vector2f& _pos = zero2f, const std::string& _text = "") {
         pos = _pos;
-        sz = {200, 20};
+        sz = {240, 20};
         focus = 0;
         lim = 1.2f * sz.x / sz.y - 1;
-        text = "";
+        text = _text;
+        buf = 0;
     }
 
     sf::Vector2i mpos;
     void checkfocus() {
         mpos = sf::Mouse::getPosition(window);
         if (event.type == sf::Event::MouseButtonPressed) {
-            if (pos.x <= mpos.x && mpos.x <= pos.x + sz.x && pos.y <= mpos.y && mpos.y <= pos.y + sz.y) {
+            if (pos.x <= mpos.x && mpos.x < pos.x + sz.x && pos.y <= mpos.y && mpos.y < pos.y + sz.y) {
                 focus = 1;
             } else {
                 focus = 0;
@@ -72,6 +73,7 @@ struct Textform {
         if (buf == -1) {
             if (text.size()) {
                 text.pop_back();
+                keyboardvis[sf::Keyboard::Backspace] = 1;
             }
             buf = 0;
             return;

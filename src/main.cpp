@@ -9,6 +9,7 @@
 #include <Graph.hpp>
 #include <Animations.hpp>
 #include <Background.hpp>
+#include <Structures.hpp>
 
 sf::RenderWindow window(sf::VideoMode(720, 480), "dsavisual", sf::Style::Titlebar | sf::Style::Close);
 sf::Event event;
@@ -17,37 +18,26 @@ sf::Font font;
 Background background;
 Controls controls;
 Data data;
-Graph graph;
-Graph graph2;
-Animations animations;
+Structures structures;
 
 void init() {
     srand(time(0));
     font.loadFromFile("assets/segoeui.ttf");
-    graph.randomize();
-    graph2.randomize();
-    for (int i = 0; i < std::min((int)graph.gnodes.size(), (int)graph2.gnodes.size()); i++) {
-        graph2.gnodes[i].id = graph.gnodes[i].id;
-    }
+    data.import("assets/example.txt");
+    structures.load(data);
 }
 
 void check() {
     controls.check();
     data.check();
-    graph.check();
-    graph2.check();
+    structures.check();
 }
 
 void tick() {
+    reglobe();
     controls.tick();
     data.tick();
-    graph.tick();
-    graph2.tick();
-    if (rand() & 1) {
-        animations.tick(graph, graph2, 2.0f);
-    } else {
-        animations.tick(graph2, graph, 2.0f);
-    }
+    structures.tick();
 }
 
 void display() {
@@ -55,12 +45,7 @@ void display() {
     background.display();
     controls.display();
     data.display();
-    if (animating) {
-        animations.display();
-    } else {
-        graph.display();
-        graph2.display();
-    }
+    structures.display();
     window.display();
 }
 

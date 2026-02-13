@@ -9,14 +9,18 @@ struct Data {
     bool focus;
     bool add;
     bool del;
+    bool bsp;
     int arrow;
+    int lim;
 
     Data() {
-        textforms.emplace_back(sf::Vector2f{0.0f, 100.0f});
+        textforms.emplace_back(sf::Vector2f{0.0f, 180.0f});
         focus = 0;
         add = 0;
         del = 0;
+        bsp = 0;
         arrow = 0;
+        lim = 15;
     }
 
     void checktextforms() {
@@ -33,6 +37,10 @@ struct Data {
             }
             if (event.key.code == sf::Keyboard::Delete) {
                 del = 1;
+                return;
+            }
+            if (event.key.code == sf::Keyboard::Backspace) {
+                bsp = 1;
                 return;
             }
             if (event.key.code == sf::Keyboard::Up) {
@@ -61,8 +69,15 @@ struct Data {
             }
         }
         if (p == -1) return;
+        if (keyboardvis[sf::Keyboard::Enter]) add = 0;
+        if (keyboardvis[sf::Keyboard::Delete]) del = 0;
+        if (keyboardvis[sf::Keyboard::Backspace]) bsp = 0;
         if (add) {
-            textforms.emplace(textforms.begin() + p + 1, sf::Vector2f{0.0f, 100.0f + 20.0f * p});
+            if (n == 15) {
+                add = 0;
+                return;
+            }
+            textforms.emplace(textforms.begin() + p + 1, sf::Vector2f{0.0f, 180.0f + 20.0f * p});
             for (int i = p + 1; i <= n; i++) {
                 textforms[i].pos += {0.0f, 20.0f};
             }
@@ -83,6 +98,19 @@ struct Data {
             del = 0;
             return;
         }
+        if (bsp) {
+            if (n == 1 || !textforms[p].text.empty()) {
+                bsp = 0;
+                return;
+            }
+            textforms.erase(textforms.begin() + p);
+            for (int i = p; i < n - 1; i++) {
+                textforms[i].pos += {0.0f, -20.0f};
+            }
+            textforms[std::max(0, p - 1)].focus = 1;
+            bsp = 0;
+            return;
+        }
         if (arrow != 0) {
             textforms[p].focus = 0;
             textforms[std::max(0, std::min(n - 1, p + arrow))].focus = 1;
@@ -95,5 +123,18 @@ struct Data {
         for (Textform& t: textforms) {
             t.display();
         }
+    }
+
+    std::ifstream file;
+    std::string line;
+    void import(const char f[]) {
+        file.open(f);
+        int cnt = 0;
+        textforms.clear();
+        while (cnt < 15 && std::getline(file, line)) {
+            textforms.emplace_back(sf::Vector2f{0.0f, 180.0f + 20.0f * cnt}, line);
+            cnt++;
+        }
+        file.close();
     }
 };
