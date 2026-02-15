@@ -30,7 +30,7 @@ struct Structures {
         } else {
             animations.tick();
             if (!animating) {
-                graph = graph2;
+                graph.copy(graph2);
             }
         }
         graph.tick();
@@ -48,7 +48,7 @@ struct Structures {
         if (!datapnt) datapnt = &data;
         graph2.clear();
         if (mode == 2) {
-            linkedlist.load(*datapnt, graph2);
+            linkedlist.load(*datapnt, graph, graph2);
         }
     }
 };

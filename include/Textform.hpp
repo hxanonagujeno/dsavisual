@@ -16,7 +16,7 @@ struct Textform {
         pos = _pos;
         sz = {240, 20};
         focus = 0;
-        lim = 1.2f * sz.x / sz.y - 1;
+        lim = std::min(9, int(1.2f * sz.x / sz.y - 1));
         text = _text;
         buf = 0;
     }
