@@ -18,6 +18,14 @@ struct Gnode {
         id = rani();
     }
 
+    Gnode(const Gnode& x) {
+        pos = x.pos;
+        color = x.color;
+        text = x.text;
+        focus = x.focus;
+        id = x.id;
+    }
+
     void copy(const Gnode& x, bool copyid = 1) {
         pos = x.pos;
         color = x.color;

@@ -14,13 +14,13 @@ struct Data {
     int lim;
 
     Data() {
-        textforms.emplace_back(sf::Vector2f{0.0f, 180.0f});
+        textforms.emplace_back(sf::Vector2f{0.0f, 240.0f});
         focus = 0;
         add = 0;
         del = 0;
         bsp = 0;
         arrow = 0;
-        lim = 15;
+        lim = 12;
     }
 
     void checktextforms() {
@@ -73,11 +73,11 @@ struct Data {
         if (keyboardvis[sf::Keyboard::Delete]) del = 0;
         if (keyboardvis[sf::Keyboard::Backspace]) bsp = 0;
         if (add) {
-            if (n == 15) {
+            if (n == lim) {
                 add = 0;
                 return;
             }
-            textforms.emplace(textforms.begin() + p + 1, sf::Vector2f{0.0f, 180.0f + 20.0f * p});
+            textforms.emplace(textforms.begin() + p + 1, sf::Vector2f{0.0f, 240.0f + 20.0f * p});
             for (int i = p + 1; i <= n; i++) {
                 textforms[i].pos += {0.0f, 20.0f};
             }
@@ -132,7 +132,7 @@ struct Data {
         int cnt = 0;
         textforms.clear();
         while (cnt < 15 && std::getline(file, line)) {
-            textforms.emplace_back(sf::Vector2f{0.0f, 180.0f + 20.0f * cnt}, line);
+            textforms.emplace_back(sf::Vector2f{0.0f, 240.0f + 20.0f * cnt}, line);
             cnt++;
         }
         file.close();

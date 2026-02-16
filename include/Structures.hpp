@@ -7,14 +7,16 @@
 
 struct Structures {
     Graph graph, graph2;
+    std::vector<Graph> graphs;
     Animations animations;
     int mode;
     Linkedlist linkedlist;
     Data* datapnt;
 
     Structures() {
-        mode = 2;
+        mode = 1;
         datapnt = nullptr;
+        graphs.clear();
     }
     
     void check() {
@@ -23,8 +25,12 @@ struct Structures {
 
     void tick() {
         if (!animating) {
-            load(*datapnt);
             if (buttonevent[1]) {
+                load(*datapnt);
+            }
+            if (!graphs.empty()) {
+                graph2.copy(graphs.back());
+                graphs.pop_back();
                 animations.load(graph, graph2, 1.5f);
             }
         } else {
@@ -46,9 +52,13 @@ struct Structures {
 
     void load(Data& data) {
         if (!datapnt) datapnt = &data;
-        graph2.clear();
+        if (mode == 1) {
+            linkedlist.load(*datapnt, graph, graph2, graphs);
+            graphs.clear();
+            graph.copy(graph2);
+        }
         if (mode == 2) {
-            linkedlist.load(*datapnt, graph, graph2);
+            linkedlist.load(*datapnt, graph, graph2, graphs);
         }
     }
 };

@@ -10,12 +10,12 @@ struct Graph {
     std::vector<Gedge> gedges;
 
     Graph() {
-        gnodes.emplace_back(std::to_string(1), sf::Vector2f{150, 150});
-        gnodes.emplace_back(std::to_string(2), sf::Vector2f{200, 200});
-        gedges.emplace_back(gnodes[0], gnodes[1]);
+        gnodes.clear();
+        gedges.clear();
     }
     
     void checkgnodes() {
+        if (animating) return;
         for (Gnode& t: gnodes) {
             t.check();
             if (t.focus) {

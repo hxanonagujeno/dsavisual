@@ -9,7 +9,7 @@ struct Animations {
     Graph g, h, F;
 
     std::unordered_map<int, int> reid;
-    void play(const Graph& G, const Graph& H) {
+    void load(const Graph& G, const Graph& H) {
         reid.clear();
         int N = 0, M = 0;
         
@@ -19,8 +19,8 @@ struct Animations {
         for (const Gnode& t: H.gnodes) {
             if (!reid.count(t.id)) reid[t.id] = N++;
         }
-        g.gnodes.assign(N, Gnode("", {480.0f, -240.0f}, charcoal - solid));
-        h.gnodes.assign(N, Gnode("", {480.0f, 720.00f}, charcoal - solid));
+        g.gnodes.assign(N, Gnode("", {480.0f, -120.0f}, charcoal - solid));
+        h.gnodes.assign(N, Gnode("", {480.0f, 600.00f}, charcoal - solid));
         F.gnodes.resize(N);
         for (const Gnode& t: G.gnodes) {
             int p = reid[t.id];
@@ -56,6 +56,14 @@ struct Animations {
         }
     }
 
+    void load(const Graph& G, const Graph& H, float t) {
+        animating = 1;
+        load(G, H);
+        start = clock();
+        duration = t * CLOCKS_PER_SEC;
+        buttonevent[1] = 0;
+    }
+
     void tick() {
         float r = 1.0f * (clock() - start) / duration;
         if (r > 1) {
@@ -78,14 +86,6 @@ struct Animations {
             F.gedges[i].color.b = (R * g.gedges[i].color.b + r * h.gedges[i].color.b);
             F.gedges[i].color.a = (R * g.gedges[i].color.a + r * h.gedges[i].color.a);
         }
-    }
-
-    void load(const Graph& G, const Graph& H, float t) {
-        animating = 1;
-        play(G, H);
-        start = clock();
-        duration = t * CLOCKS_PER_SEC;
-        buttonevent[1] = 0;
     }
     
     void display() {
