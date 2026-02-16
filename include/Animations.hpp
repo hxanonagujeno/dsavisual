@@ -19,8 +19,8 @@ struct Animations {
         for (const Gnode& t: H.gnodes) {
             if (!reid.count(t.id)) reid[t.id] = N++;
         }
-        g.gnodes.assign(N, Gnode("", {480.0f, -240.0f}, {128, 128, 128, 0}));
-        h.gnodes.assign(N, Gnode("", {480.0f, 720.00f}, {128, 128, 128, 0}));
+        g.gnodes.assign(N, Gnode("", {480.0f, -240.0f}, charcoal - solid));
+        h.gnodes.assign(N, Gnode("", {480.0f, 720.00f}, charcoal - solid));
         F.gnodes.resize(N);
         for (const Gnode& t: G.gnodes) {
             int p = reid[t.id];
@@ -39,9 +39,9 @@ struct Animations {
         for (const Gedge& t: H.gedges) {
             if (!reid.count(t.a->id ^ t.b->id)) reid[t.a->id ^ t.b->id] = M++;
         }
-        g.gedges.assign(M, Gedge(g.gnodes[0], g.gnodes[0], 1, {128, 128, 128, 0}));
-        h.gedges.assign(M, Gedge(h.gnodes[0], h.gnodes[0], 1, {128, 128, 128, 0}));
-        F.gedges.assign(M, Gedge(F.gnodes[0], F.gnodes[0], 1, {128, 128, 128, 0}));
+        g.gedges.assign(M, Gedge(g.gnodes[0], g.gnodes[0], 1, charcoal - solid));
+        h.gedges.assign(M, Gedge(h.gnodes[0], h.gnodes[0], 1, charcoal - solid));
+        F.gedges.assign(M, Gedge(F.gnodes[0], F.gnodes[0], 1, charcoal - solid));
         for (const Gedge& t: G.gedges) {
             int p = reid[t.a->id ^ t.b->id];
             F.gedges[p].a = &F.gnodes[reid[t.a->id]];

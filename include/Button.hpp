@@ -41,7 +41,25 @@ struct Button {
         }
     }
 
+    void tickspecials() {
+        if (id == 8) {
+            if (stepbystep) {
+                if (text.back() == 'F') {
+                    text.erase(text.end() - 2, text.end());
+                    text += 'N';
+                }
+            } else {
+                if (text.back() == 'N') {
+                    text.pop_back();
+                    text += "FF";
+                }
+            }
+            return;
+        }
+    }
+
     void tick() {
+        tickspecials();
         if (animating) {
             color = gray;
             hover = 0;

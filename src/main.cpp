@@ -23,6 +23,7 @@ Structures structures;
 void init() {
     srand(time(0));
     font.loadFromFile("assets/segoeui.ttf");
+    font.setSmooth(0);
     data.import("assets/example.txt");
     structures.load(data);
 }

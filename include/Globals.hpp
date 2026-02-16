@@ -7,6 +7,7 @@ sf::Color ivory = {232, 232, 232};
 sf::Color silver = {192, 192, 192};
 sf::Color slate = {160, 160, 160};
 sf::Color gray = {128, 128, 128};
+sf::Color charcoal = {96, 96, 96};
 sf::Color onyx = {36, 36, 36};
 sf::Color transparent = {0, 0, 0, 128};
 sf::Color solid = {0, 0, 0, 255};
@@ -50,6 +51,7 @@ sf::Vector2f sizes(const sf::FloatRect& a) {
 }
 
 bool animating = 0;
+bool stepbystep = 0;
 
 bool buttonevent[128];
 
@@ -62,5 +64,9 @@ extern sf::Event event;
 extern sf::Font font;
 
 void reglobe() {
+    if (buttonevent[8]) {
+        stepbystep ^= 1;
+        buttonevent[8] = 0;
+    }
     memset(keyboardvis, 0, sizeof(keyboardvis));
 }

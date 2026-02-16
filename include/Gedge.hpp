@@ -9,7 +9,7 @@ struct Gedge {
     int weight;
     sf::Color color;
 
-    Gedge(Gnode& _a, Gnode& _b, int _weight = 1, const sf::Color& _color = silver) {
+    Gedge(Gnode& _a, Gnode& _b, int _weight = 1, const sf::Color& _color = charcoal) {
         a = &_a;
         b = &_b;
         weight = _weight;
