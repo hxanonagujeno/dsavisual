@@ -57,6 +57,13 @@ struct Data {
     void check() {
         checktextforms();
         checkkey();
+        if (animating) {
+            for (Textform& t: textforms) {
+                if (!t.text.empty() && t.text.back() == ' ') {
+                    t.text.pop_back();
+                }
+            }
+        }
     }
 
     void tick() {

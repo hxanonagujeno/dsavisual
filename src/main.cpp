@@ -26,7 +26,7 @@ void init() {
     font.setSmooth(0);
     data.import("assets/example.txt");
     structures.load(data);
-    structures.mode = 2;
+    structuremode = 2;
     memset(buttonevent, 0, sizeof(buttonevent));
 }
 

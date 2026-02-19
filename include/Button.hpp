@@ -12,16 +12,19 @@ struct Button {
     bool hover;
     bool click;
     bool hold;
+    sf::Color colormod;
 
     Button(const sf::Vector2f& _pos = zero2f, const sf::Vector2f& _sz = sf::Vector2f{100.0f, 100.0f}, const std::string& _text = "", int _id = 0, int _fontsz = -1) {
         pos = _pos;
         sz = _sz;
+        color = silver;
         text = _text;
         id = _id;
         hover = 0;
         click = 0;
         hold = 0;
         fontsz = _fontsz;
+        colormod = nocolor;
     }
 
     sf::Vector2i mpos;
@@ -56,22 +59,29 @@ struct Button {
             }
             return;
         }
+        if (2 <= id && id <= 7) {
+            if (structuremode == id) {
+                color = slate;
+            } else {
+                color = silver;
+            }
+        }
     }
 
     void tick() {
         tickspecials();
         if (animating) {
-            color = gray;
+            colormod = silver - gray;
             hover = 0;
             click = 0;
             hold = 0;
             return;
         }
-        color = silver;
+        colormod = nocolor;
         if (hover) {
-            color = slate;
+            colormod = silver - slate;
             if (click) {
-                color = gray;
+                colormod = silver - gray;
                 if (!hold) {
                     buttonevent[id] = 1;
                 }
@@ -85,7 +95,7 @@ struct Button {
     void display() {
         box.setPosition(pos);
         box.setSize(sz);
-        box.setFillColor(color);
+        box.setFillColor(color - colormod);
 
         chars.setFont(font);
         chars.setCharacterSize(fontsz > 0? fontsz: (1.2f * sz.x) / (int)text.size());

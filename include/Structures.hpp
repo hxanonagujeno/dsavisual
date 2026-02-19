@@ -3,18 +3,19 @@
 #include <SFML/Graphics.hpp>
 #include <Globals.hpp>
 #include <Linkedlist.hpp>
+#include <Linearprobing.hpp>
 #include <Animations.hpp>
 
 struct Structures {
     Graph graph, graph2;
     std::vector<Graph> graphs;
     Animations animations;
-    int mode;
     Linkedlist linkedlist;
+    Linearprobing linearprobing;
     Data* datapnt;
 
     Structures() {
-        mode = 1;
+        structuremode = 1;
         datapnt = nullptr;
         graphs.clear();
     }
@@ -52,13 +53,16 @@ struct Structures {
 
     void load(Data& data) {
         if (!datapnt) datapnt = &data;
-        if (mode == 1) {
+        if (structuremode == 1) {
             linkedlist.load(*datapnt, graph, graph2, graphs);
             graphs.clear();
             graph.copy(graph2);
         }
-        if (mode == 2) {
+        if (structuremode == 2) {
             linkedlist.load(*datapnt, graph, graph2, graphs);
+        }
+        if (structuremode == 3) {
+            linearprobing.load(*datapnt, graph, graph2, graphs);
         }
     }
 };

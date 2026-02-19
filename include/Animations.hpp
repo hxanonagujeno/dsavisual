@@ -75,16 +75,10 @@ struct Animations {
         int N = (int)F.gnodes.size(), M = (int)F.gedges.size();
         for (int i = 0; i < N; i++) {
             F.gnodes[i].pos = (R * g.gnodes[i].pos + r * h.gnodes[i].pos);
-            F.gnodes[i].color.r = (R * g.gnodes[i].color.r + r * h.gnodes[i].color.r);
-            F.gnodes[i].color.g = (R * g.gnodes[i].color.g + r * h.gnodes[i].color.g);
-            F.gnodes[i].color.b = (R * g.gnodes[i].color.b + r * h.gnodes[i].color.b);
-            F.gnodes[i].color.a = (R * g.gnodes[i].color.a + r * h.gnodes[i].color.a);
+            F.gnodes[i].color = R * g.gnodes[i].color + r * h.gnodes[i].color;
         }
         for (int i = 0; i < M; i++) {
-            F.gedges[i].color.r = (R * g.gedges[i].color.r + r * h.gedges[i].color.r);
-            F.gedges[i].color.g = (R * g.gedges[i].color.g + r * h.gedges[i].color.g);
-            F.gedges[i].color.b = (R * g.gedges[i].color.b + r * h.gedges[i].color.b);
-            F.gedges[i].color.a = (R * g.gedges[i].color.a + r * h.gedges[i].color.a);
+            F.gedges[i].color = R * g.gedges[i].color + r * h.gedges[i].color;
         }
     }
     
