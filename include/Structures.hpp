@@ -32,7 +32,7 @@ struct Structures {
             if (!graphs.empty()) {
                 graph2.copy(graphs.back());
                 graphs.pop_back();
-                animations.load(graph, graph2, 1.5f);
+                animations.load(graph, graph2, 0.5f);
             }
         } else {
             animations.tick();
