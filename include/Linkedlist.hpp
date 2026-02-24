@@ -8,6 +8,10 @@ struct Linkedlist {
     std::vector<std::string> nodes;
     std::vector<std::vector<int>> dp;
 
+    void clear() {
+        nodes.clear();
+    }
+
     void preload(const Data& data, const Graph& f, Graph& g) {
         g.clear();
         nodes.clear();
@@ -24,6 +28,7 @@ struct Linkedlist {
         for (int i = 0; i + 1 < n; i++) {
             g.gedges.emplace_back(g.gnodes[i], g.gnodes[i + 1]);
         }
+
         int m = f.gnodes.size();
         dp.assign(m, std::vector<int>(n, 0));
         for (int i = 0; i < m; i++) for (int j = 0; j < n; j++) {
@@ -53,6 +58,7 @@ struct Linkedlist {
         int m = f.gnodes.size(), n = g.gnodes.size();
         for (Gnode& t: g.gnodes) t.pos += {0, gnodesize * -1.5f};
         graphs.emplace_back(); graphs.back().copy(g);
+        
         for (int i = m - 1, j = n - 1; i >= 0 && j >= 0;) {
             if (i && dp[i][j] == dp[i - 1][j]) {
                 g.gnodes.emplace(g.gnodes.begin() + j + 1, f.gnodes[i]);

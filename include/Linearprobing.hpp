@@ -9,6 +9,10 @@ struct Linearprobing {
     std::vector<std::string> vals;
     bool resized = 0;
 
+    void clear() {
+        n = -1;
+    }
+
     int hash(const std::string& s) {
         int val = 0;
         for (char t: s) {
@@ -18,26 +22,7 @@ struct Linearprobing {
         return val;
     }
 
-    int add(const std::string& s) {
-		int i = hash(s);
-		while (!vals[i].empty() && vals[i][0] != '#') {
-			i = (i + 1) % n;
-		}
-		vals[i] = s;
-        return i;
-	}
-	
-	int del(const std::string& s) {
-		int i = hash(s);
-		for (int j = 0; j < n; j++) {
-			if (vals[i] == s) return vals[i] = "#", i;
-			if (vals[i].empty()) return -1;
-			i = (i + 1) % n;
-		}
-        return -1;
-	}
-
-    int animatedadd(Graph& g, std::vector<Graph>& graphs, const std::string& s) {
+    int add(Graph& g, std::vector<Graph>& graphs, const std::string& s) {
 		int i = hash(s);
         for (int j = 0; j < n; j++) {
             g.gnodes[i].color = sf::Color::Yellow;
@@ -52,7 +37,7 @@ struct Linearprobing {
         return i;
 	}
 	
-	int animateddel(Graph& g, std::vector<Graph>& graphs, const std::string& s) {
+	int del(Graph& g, std::vector<Graph>& graphs, const std::string& s) {
 		int i = hash(s);
 		for (int j = 0; j < n; j++) {
             g.gnodes[i].color = sf::Color::Yellow;
@@ -99,7 +84,7 @@ struct Linearprobing {
             recreate(g);
             for (const Textform& t: data.textforms) {
                 if (!t.text.empty()) {
-                    animatedadd(g, graphs, t.text);
+                    add(g, graphs, t.text);
                 }
             }
         } else {
@@ -112,15 +97,16 @@ struct Linearprobing {
             }
             for (const auto& x: cnv) {
                 for (int i = 0; i > x.second; i--) {
-                    animateddel(g, graphs, x.first);
+                    del(g, graphs, x.first);
                 }
             }
             for (const auto& x: cnv) {
                 for (int i = 0; i < x.second; i++) {
-                    animatedadd(g, graphs, x.first);
+                    add(g, graphs, x.first);
                 }
             }
         }
+        
         reverse(graphs.begin(),graphs.end());
         if (!stepbystep) { 
             while ((int)graphs.size() > 1) {
@@ -133,7 +119,6 @@ struct Linearprobing {
                     }
                 }
             }
-            return;
         }
     }
 };

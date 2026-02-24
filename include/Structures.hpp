@@ -4,6 +4,7 @@
 #include <Globals.hpp>
 #include <Linkedlist.hpp>
 #include <Linearprobing.hpp>
+#include <Trie.hpp>
 #include <Animations.hpp>
 
 struct Structures {
@@ -12,6 +13,7 @@ struct Structures {
     Animations animations;
     Linkedlist linkedlist;
     Linearprobing linearprobing;
+    Trie trie;
     Data* datapnt;
     int curtype = 2;
 
@@ -67,12 +69,17 @@ struct Structures {
         if (structuremode == 2) {
             linkedlist.load(*datapnt, graph, graph2, graphs);
         } else {
-            linkedlist.nodes.clear();
+            linkedlist.clear();
         }
         if (structuremode == 3) {
             linearprobing.load(*datapnt, graph, graph2, graphs);
         } else {
-            linearprobing.n = -1;
+            linearprobing.clear();
+        }
+        if (structuremode == 5) {
+            trie.load(*datapnt, graph, graph2, graphs);
+        } else {
+            trie.clear();
         }
     }
 };
