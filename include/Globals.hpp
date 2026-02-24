@@ -80,5 +80,6 @@ void reglobe() {
         stepbystep ^= 1;
         buttonevent[8] = 0;
     }
+    memset(buttonevent, 0, sizeof(buttonevent));
     memset(keyboardvis, 0, sizeof(keyboardvis));
 }

@@ -13,6 +13,7 @@ struct Structures {
     Linkedlist linkedlist;
     Linearprobing linearprobing;
     Data* datapnt;
+    int curtype = 2;
 
     Structures() {
         structuremode = 1;
@@ -38,6 +39,11 @@ struct Structures {
             animations.tick();
             if (!animating) {
                 graph.copy(graph2);
+                if (!graphs.empty()) {
+                    graph2.copy(graphs.back());
+                    graphs.pop_back();
+                    animations.load(graph, graph2, 0.5f);
+                }
             }
         }
         graph.tick();
@@ -60,9 +66,13 @@ struct Structures {
         }
         if (structuremode == 2) {
             linkedlist.load(*datapnt, graph, graph2, graphs);
+        } else {
+            linkedlist.nodes.clear();
         }
         if (structuremode == 3) {
             linearprobing.load(*datapnt, graph, graph2, graphs);
+        } else {
+            linearprobing.n = -1;
         }
     }
 };

@@ -5,7 +5,7 @@
 #include <Graph.hpp>
 
 struct Linearprobing {
-    int n = 0;
+    int n = -1;
     std::vector<std::string> vals;
     bool resized = 0;
 
@@ -89,37 +89,6 @@ struct Linearprobing {
     }
 
     std::map<std::string, int> cnv;
-    void preload(const Data& data, const Graph& f, Graph& g) {
-        resized = (n != (int)data.textforms.size());
-        if (resized) {
-            n = (int)data.textforms.size();
-            vals.assign(n, "");
-            for (const Textform& t: data.textforms) {
-                if (!t.text.empty()) add(t.text);
-            }
-        } else {
-            cnv.clear();
-            for (const std::string& t: vals) {
-                if (!t.empty()) cnv[t] |= 1;
-            }
-            for (const Textform& t: data.textforms) {
-                if (!t.text.empty()) cnv[t.text] |= 2;
-            }
-            for (const auto& x: cnv) {
-                if (x.second == 1) del(x.first);
-            }
-            for (const auto& x: cnv) {
-                if (x.second == 2) add(x.first);
-            }
-        }
-        recreate(g);
-        if (!resized) return;
-        for (int i = 0; i < n; i++) {
-            if (g.gnodes[i].text == f.gnodes[i].text) {
-                g.gnodes[i].id = f.gnodes[i].id;
-            }
-        }
-    }
 
     void load(const Data& data, const Graph& f, Graph& g, std::vector<Graph>& graphs) {
         graphs.clear();
@@ -157,7 +126,7 @@ struct Linearprobing {
             while ((int)graphs.size() > 1) {
                 graphs.pop_back();
             }
-            if (!resized) {
+            if (!resized && !graphs.empty()) {
                 for (int i = 0; i < n; i++) {
                     if (graphs[0].gnodes[i].text != f.gnodes[i].text) {
                         graphs[0].gnodes[i].id = rani();

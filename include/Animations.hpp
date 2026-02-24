@@ -62,6 +62,7 @@ struct Animations {
         start = clock();
         duration = t * CLOCKS_PER_SEC;
         buttonevent[1] = 0;
+        tick();
     }
 
     void tick() {
