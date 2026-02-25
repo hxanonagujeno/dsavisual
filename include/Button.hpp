@@ -59,6 +59,14 @@ struct Button {
             }
             return;
         }
+        if (id == 9) {
+            text = (char)((int)animationtime + '0');
+            text += '.';
+            text += (char)(((int)(animationtime * 10)) % 10 + '0');
+            text += (char)(((int)(animationtime * 100)) % 10 + '0');
+            text += 'S';
+            return;
+        }
         if (2 <= id && id <= 7) {
             if (structuremode == id) {
                 color = slate;

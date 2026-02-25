@@ -66,6 +66,8 @@ int gnodesize = 24;
 
 int structuremode = 1;
 
+float animationtime = 1.0f;
+
 extern sf::RenderWindow window;
 extern sf::Event event;
 extern sf::Font font;
@@ -73,12 +75,14 @@ extern sf::Font font;
 void reglobe() {
     for (int i = 2; i <= 7; i++) if (buttonevent[i]) {
         structuremode = i;
-        buttonevent[i] = 0;
         break;
     }
     if (buttonevent[8]) {
         stepbystep ^= 1;
-        buttonevent[8] = 0;
+    }
+    if (buttonevent[9]) {
+        animationtime += (animationtime < 1? 0.25f: 0.5f);
+        if (animationtime == 2.5f) animationtime = 0.25f;
     }
     memset(buttonevent, 0, sizeof(buttonevent));
     memset(keyboardvis, 0, sizeof(keyboardvis));

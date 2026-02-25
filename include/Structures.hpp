@@ -35,7 +35,7 @@ struct Structures {
             if (!graphs.empty()) {
                 graph2.copy(graphs.back());
                 graphs.pop_back();
-                animations.load(graph, graph2, 0.5f);
+                animations.load(graph, graph2, animationtime);
             }
         } else {
             animations.tick();
@@ -44,7 +44,7 @@ struct Structures {
                 if (!graphs.empty()) {
                     graph2.copy(graphs.back());
                     graphs.pop_back();
-                    animations.load(graph, graph2, 0.5f);
+                    animations.load(graph, graph2, animationtime);
                 }
             }
         }

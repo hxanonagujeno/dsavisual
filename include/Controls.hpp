@@ -9,7 +9,8 @@ struct Controls {
 
     Controls() {
         buttons.emplace_back(sf::Vector2f{0.00f, 0.00f}, sf::Vector2f{240.0f, 60.0f}, "ANIMATE", 1, 36);
-        buttons.emplace_back(sf::Vector2f{0.00f, 60.0f}, sf::Vector2f{240.0f, 60.0f}, "STEPS OFF", 8, 36);
+        buttons.emplace_back(sf::Vector2f{0.00f, 60.0f}, sf::Vector2f{120.0f, 60.0f}, "STEPS OFF", 8, 24);
+        buttons.emplace_back(sf::Vector2f{120.f, 60.0f}, sf::Vector2f{120.0f, 60.0f}, "x1", 9, 24);
         buttons.emplace_back(sf::Vector2f{0.00f, 120.f}, sf::Vector2f{80.00f, 60.0f}, "LINKED\nLIST", 2, 16);
         buttons.emplace_back(sf::Vector2f{80.0f, 120.f}, sf::Vector2f{80.00f, 60.0f}, "LINEAR\nPROBING", 3, 16);
         buttons.emplace_back(sf::Vector2f{160.f, 120.f}, sf::Vector2f{80.00f, 60.0f}, "2-3-4", 4, 20);
