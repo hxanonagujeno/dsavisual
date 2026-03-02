@@ -13,6 +13,9 @@ sf::Color nocolor = {0, 0, 0, 0};
 sf::Color transparent = {0, 0, 0, 128};
 sf::Color solid = {0, 0, 0, 255};
 
+const int gnodesize = 24;
+const int inf = 2e9;
+
 template<class T> bool mnz(T& x, const T& y) {
     return (x > y? (x = y, 1): 0);
 }
@@ -61,8 +64,6 @@ bool stepbystep = 0;
 bool buttonevent[128];
 
 bool keyboardvis[256];
-
-int gnodesize = 24;
 
 int structuremode = 1;
 
