@@ -63,12 +63,12 @@ struct Linearprobing {
     }
 
     void recreate(Graph& g) {
-        float currentpos = 240.0f + 1.5f * gnodesize;
-        float spacing = (n == 1? 0.0f: (480.0f - 3 * gnodesize) / (n - 1));
+        float currentpos = 240.0f;
+        float spacing = 600.0f / (n + 1);
         g.gnodes.clear();
         for (int i = 0; i < n; i++) {
-            g.gnodes.emplace_back(vals[i], sf::Vector2f{currentpos, 240.0f});
             currentpos += spacing;
+            g.gnodes.emplace_back(vals[i], sf::Vector2f{currentpos, 300.0f});
         }
         reedge(g);
     }

@@ -150,13 +150,13 @@ struct Trie {
         }
 
         float currenty = 0.0f;
-        float dy = 480.0f / (maxd + 2);
+        float dy = 600.0f / (maxd + 2);
         std::vector<sf::Vector2f> pos(m);
         for (int d = 0; d <= maxd; d++) {
             currenty += dy;
             int k = (int)layers[d].size();
             float currentx = 240.0f;
-            float dx = 480.0f / (k + 1);
+            float dx = 600.0f / (k + 1);
             for (int i = 0; i < k; i++) {
                 currentx += dx;
                 pos[layers[d][i]] = sf::Vector2f(currentx, currenty);

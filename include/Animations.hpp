@@ -19,8 +19,8 @@ struct Animations {
         for (const Gnode& t: H.gnodes) {
             if (!reid.count(t.id)) reid[t.id] = N++;
         }
-        g.gnodes.assign(N, Gnode("", {480.0f, -120.0f}, charcoal - solid));
-        h.gnodes.assign(N, Gnode("", {480.0f, 600.00f}, charcoal - solid));
+        g.gnodes.assign(N, Gnode("", {540.0f, -120.0f}, charcoal - solid));
+        h.gnodes.assign(N, Gnode("", {540.0f, 720.00f}, charcoal - solid));
         F.gnodes.resize(N);
         for (const Gnode& t: G.gnodes) {
             int p = reid[t.id];

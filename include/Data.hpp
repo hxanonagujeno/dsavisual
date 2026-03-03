@@ -20,7 +20,7 @@ struct Data {
         del = 0;
         bsp = 0;
         arrow = 0;
-        lim = 12;
+        lim = 18;
     }
 
     void checktextforms() {

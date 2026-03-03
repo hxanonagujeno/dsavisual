@@ -11,7 +11,7 @@
 #include <Background.hpp>
 #include <Structures.hpp>
 
-sf::RenderWindow window(sf::VideoMode(720, 480), "dsavisual", sf::Style::Titlebar | sf::Style::Close);
+sf::RenderWindow window(sf::VideoMode(840, 600), "dsavisual", sf::Style::Titlebar | sf::Style::Close);
 sf::Event event;
 sf::Font font;
 
@@ -54,6 +54,7 @@ void display() {
 
 bool polled;
 int main() {
+    freopen("DEBUG.TXT", "w", stdout);
     init();
     while (window.isOpen()) {
         polled = 0;

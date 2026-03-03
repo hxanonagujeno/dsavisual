@@ -56,9 +56,9 @@ struct Gnode {
             pos = sf::Vector2f(mpos - mdis);
         }
         mxz(pos.x, 240.0f + gnodesize);
-        mnz(pos.x, 720.0f - gnodesize);
+        mnz(pos.x, 840.0f - gnodesize);
         mxz(pos.y, 0.000f + gnodesize);
-        mnz(pos.y, 480.0f - gnodesize);
+        mnz(pos.y, 600.0f - gnodesize);
     }
 
     sf::CircleShape box;
