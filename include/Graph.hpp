@@ -16,11 +16,9 @@ struct Graph {
     
     void checkgnodes() {
         if (animating) return;
-        for (Gnode& t: gnodes) {
-            t.check();
-            if (t.focus) {
-                break;
-            }
+        for (auto t = gnodes.rbegin(); t != gnodes.rend(); t++) {
+            t->check();
+            if (t->focus) break;
         }
     }
 
