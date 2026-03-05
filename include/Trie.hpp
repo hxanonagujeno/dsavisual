@@ -180,20 +180,27 @@ struct Trie {
     void load(const Data& data, const Graph& f, Graph& g, std::vector<Graph>& graphs) {
         graphs.clear();
         dexts.clear();
-        for (const auto& x: texts) {
-            dexts[x.first] = 0;
-        }
-        for (const Textform& x: data.textforms) {
-            dexts[x.text] += 1;
-        }
-        for (const auto& x: dexts) {
-            for (int i = 0; i < x.second - texts[x.first]; i++) {
-                add(g, graphs, x.first);
+        if (texts.empty()) {
+            for (const Textform& x: data.textforms) {
+                dexts[x.text] += 1;
+                add(g, graphs, x.text);
             }
-        }
-        for (const auto& x: dexts) {
-            for (int i = 0; i > x.second - texts[x.first]; i--) {
-                del(g, graphs, x.first);
+        } else {
+            for (const auto& x: texts) {
+                dexts[x.first] = 0;
+            }
+            for (const Textform& x: data.textforms) {
+                dexts[x.text] += 1;
+            }
+            for (const auto& x: dexts) {
+                for (int i = 0; i < x.second - texts[x.first]; i++) {
+                    add(g, graphs, x.first);
+                }
+            }
+            for (const auto& x: dexts) {
+                for (int i = 0; i > x.second - texts[x.first]; i--) {
+                    del(g, graphs, x.first);
+                }
             }
         }
         texts = dexts;

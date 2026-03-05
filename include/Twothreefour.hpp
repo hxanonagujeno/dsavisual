@@ -21,11 +21,14 @@ struct Twothreefour {
     std::string customtos(const std::vector<int>& cur) {
         std::string tmp = "";
         for (int t: cur) {
-            tmp += std::to_string(t);
+            if (cnt[t]) {
+                tmp += std::to_string(t);
+            } else {
+                tmp += '(' + std::to_string(t) + ')';
+            }
             tmp += ", ";
         }
-        tmp.pop_back();
-        tmp.pop_back();
+        tmp.pop_back(); tmp.pop_back();
         return tmp;
     }
 
@@ -51,6 +54,8 @@ struct Twothreefour {
     };
 
     std::vector<Node> nodes;
+    std::vector<int> cnvid;
+    std::unordered_map<int, int> cnt;
     int rut;
 
     void debugprint() {
@@ -79,22 +84,25 @@ struct Twothreefour {
 
     int newnode() {
         nodes.emplace_back();
+        cnvid.emplace_back(rani());
         return (int)nodes.size() - 1;
     }
 
     int newnode(int x, int _par = -1) {
         nodes.emplace_back(x, _par);
+        cnvid.emplace_back(rani());
         return (int)nodes.size() - 1;
     }
 
     void clear() {
         nodes.clear();
+        cnvid.clear();
+        cnt.clear();
         rut = newnode();
     }
 
-    void split(int p) {
+    void split(Graph& g, std::vector<Graph>& graphs, int p) {
         assert(0 <= p && p < (int)nodes.size());
-        // std::cout << "splitting " << p << " begins" << std::endl;
         bool newrut = (nodes[p].par == -1);
         if (newrut) nodes[p].par = rut = newnode();
         newnode(nodes[p].val[3], nodes[p].par);
@@ -102,83 +110,106 @@ struct Twothreefour {
         Node& anc = nodes[newrut? cur.par = rut: cur.par];
         Node& niu = nodes[(int)nodes.size() - 1];
         if (newrut) anc.child.emplace_back(p);
-        // std::cout << "splitting " << p << " step 1" << std::endl;
         int m = (int)anc.val.size();
         for (int i = 0; i <= m; i++) {
-            // std::cout << "splitting " << p << " step 1." << i << std::endl;
-            // std::cout << (i == 0? -inf: anc.val[i - 1]) << std::endl;
-            // std::cout << "splitting " << p << " step 1." << i << " A" << std::endl;
-            // std::cout << (i == m? inf: anc.val[i]) << std::endl;
-            // std::cout << "splitting " << p << " step 1." << i << " B" << std::endl;
-            // std::cout << cur.val[2] << std::endl;
             if (cur.val[2] < (i == m? inf: anc.val[i])) {
-                // std::cout << "confirmed " << i << std::endl;
-                debugprint();
                 anc.val.emplace(anc.val.begin() + i, cur.val[2]);
-                // std::cout << "confirmed " << i << std::endl;
                 anc.child.emplace(anc.child.begin() + i + 1, (int)nodes.size() - 1);
-                // std::cout << "confirmed " << i << std::endl;
-                debugprint();
                 break;
             }
         }
-        // std::cout << "splitting " << p << " step 2" << std::endl;
         cur.val.pop_back(); cur.val.pop_back();
         if (!cur.child.empty()) {
-            debugprint();
             niu.child.emplace_back(cur.child[3]);
             niu.child.emplace_back(cur.child[4]);
             nodes[cur.child[3]].par = (int)nodes.size() - 1;
             nodes[cur.child[4]].par = (int)nodes.size() - 1;
-            cur.child.pop_back();
-            cur.child.pop_back();
-            // move(cur.child.begin() + 3, cur.child.end(), niu.child.begin());
-            debugprint();
+            cur.child.pop_back(); cur.child.pop_back();
         }
-        if (anc.val.size() == 4) split(cur.par);
-        // std::cout << "splitting " << p << " ends" << std::endl;
+        debugprint();
+        recreate(g);
+        g.gnodes[p].color = sf::Color::Yellow;
+        g.gnodes[cur.par].color = sf::Color::Magenta;
+        g.gnodes.back().color = sf::Color::Magenta;
+        graphs.emplace_back(); graphs.back().copy(g);
+        g.gnodes[p].color = silver;
+        g.gnodes[cur.par].color = silver;
+        g.gnodes.back().color = silver;
+        if (anc.val.size() == 4) split(g, graphs, cur.par);
     }
 
-    int add(int p, int t) {
+    int add(Graph& g, std::vector<Graph>& graphs, int p, int t) {
+        g.gnodes[p].color = sf::Color::Yellow;
+        graphs.emplace_back(); graphs.back().copy(g);
+        g.gnodes[p].color = silver;
         Node& cur = nodes[p];
         int m = (int)cur.val.size();
         if (cur.child.empty()) {
             cur.val.emplace_back(t);
             sort(cur.val.begin(), cur.val.end());
-            if (m == 3) split(p);
-            // std::cout << p << " is the modified node" << std::endl;
+            if (m == 3) split(g, graphs, p);
             return p;
         }
         assert((int)cur.child.size() == m + 1);
         for (int i = 0; i <= m; i++) {
             if (t < (i == m? inf: cur.val[i])) {
-                std::cerr << t << " " << i << " " << (i == m? inf: cur.val[i]) << std::endl;
-                debugprint();
-                return add(cur.child[i], t);
+                return add(g, graphs, cur.child[i], t);
             }
         }
         return -1;
     }
 
-    void add(int t) {
-        add(rut, t);
-        // ++nodes[add(rut, t)].cnt;
+    void add_helper(Graph& g, bool& ok, int t) {
+        for (int i = 0; i < (int)nodes.size(); i++) {
+            for (int _t: nodes[i].val) if (_t == t) {
+                g.gnodes[i].color = sf::Color::Green;
+                ok = 1;
+            }
+            if (ok) break;
+        }
+    }
+    void add(Graph& g, std::vector<Graph>& graphs, int t) {
+        bool ok = 0;
+        add_helper(g, ok, t);
+        if (ok) {
+            graphs.emplace_back(); graphs.back().copy(g);
+            ++cnt[t];
+            recreate(g);
+            graphs.emplace_back(); graphs.back().copy(g);
+            return;
+        }
+        ++cnt[t];
+        add(g, graphs, rut, t);
+        recreate(g);
+        graphs.emplace_back(); graphs.back().copy(g);
+    }
+
+    void del(Graph& g, std::vector<Graph>& graphs, int t) {
+        for (int i = 0; i < (int)nodes.size(); i++) {
+            bool ok = 0;
+            for (int _t: nodes[i].val) if (_t == t) {
+                g.gnodes[i].color = sf::Color::Red;
+                ok = 1;
+            }
+            if (ok) break;
+        }
+        graphs.emplace_back(); graphs.back().copy(g);
+        --cnt[t];
+        recreate(g);
+        graphs.emplace_back(); graphs.back().copy(g);
     }
 
     void recreate(Graph& g) {
-        // std::cout << "recreate starts" << std::endl;
         g.clear();
         int m = (int)nodes.size();
         std::vector<int> depth(m, -1);
         std::queue<int> q;
-        // std::cout << "root is " << rut << ", number of nodes is " << m << std::endl;
         depth[rut] = 0;
         q.push(rut);
         int maxd = 0;
         while (!q.empty()) {
             int u = q.front(); q.pop();
             for (int v: nodes[u].child) {
-                // std::cout << u << ": " << v << std::endl;
                 depth[v] = depth[u] + 1;
                 maxd = std::max(maxd, depth[v]);
                 q.push(v);
@@ -188,7 +219,6 @@ struct Twothreefour {
         for (int i = 0; i < m; i++) {
             layers[depth[i]].push_back(i);
         }
-        // std::cout << "recreate bfs done" << std::endl;
 
         float currenty = 0.0f;
         float dy = 600.0f / (maxd + 2);
@@ -208,11 +238,11 @@ struct Twothreefour {
                 pos[layers[d][i]] = sf::Vector2f(currentx, currenty);
             }
         }
-        // std::cout << "recreate spacing done" << std::endl;
 
         g.gnodes.clear();
         for (int i = 0; i < m; i++) {
             g.gnodes.emplace_back(customtos(nodes[i].val), pos[i]);
+            g.gnodes[i].id = cnvid[i];
         }
         
         g.gedges.clear();
@@ -221,32 +251,47 @@ struct Twothreefour {
                 g.gedges.emplace_back(g.gnodes[i], g.gnodes[t]);
             }
         }
-        // std::cout << "recreate ends" << std::endl;
     }
 
+    std::unordered_map<int, int> dnt;
     void load(const Data& data, const Graph& f, Graph& g, std::vector<Graph>& graphs) {
         graphs.clear();
-        clear();
-        for (const Textform& t: data.textforms) {
-            int tmp = customtoi(t.text);
-            if (tmp == inf) continue;
-            std::cout << tmp << " starts" << std::endl;
-            add(tmp);
-            std::cout << tmp << " halfway" << std::endl;
-            recreate(g);
-            std::cout << tmp << " ends" << std::endl;
-            debugprint();
-            graphs.emplace_back(); graphs.back().copy(g);
+        dnt.clear();
+        if ((int)nodes.size() > 15) {
+            clear();
         }
+        if (cnt.empty()) {
+            for (const Textform& x: data.textforms) {
+                int t = customtoi(x.text);
+                if (t == inf) continue;
+                dnt[t]++;
+                add(g, graphs, t);
+            }
+        } else {
+            for (const Node& x: nodes) {
+                for (int t: x.val) dnt[t] = 0;
+            }
+            for (const Textform& x: data.textforms) {
+                int t = customtoi(x.text);
+                if (t == inf) continue;
+                dnt[t]++;
+            }
+            for (const auto& t: dnt) {
+                for (int i = 0; i < t.second - cnt[t.first]; i++) {
+                    add(g, graphs, t.first);
+                }
+                for (int i = 0; i > t.second - cnt[t.first]; i--) {
+                    del(g, graphs, t.first);
+                }
+            }
+        }
+        cnt = dnt;
 
-        // std::cout << "adding done" << std::endl;
         reverse(graphs.begin(), graphs.end());
         if (!stepbystep) {
-            // std::cout << "removing extra steps starts" << std::endl;
             while ((int)graphs.size() > 1) {
                 graphs.pop_back();
             }
-            // std::cout << "removing extra steps ends" << std::endl;
         }
     }
 };

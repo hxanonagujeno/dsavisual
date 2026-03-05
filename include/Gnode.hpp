@@ -70,7 +70,7 @@ struct Gnode {
         box.setFillColor(color);
         
         chars.setFont(font);
-        chars.setCharacterSize((5.0f * gnodesize) / (3 + (int)text.size()));
+        chars.setCharacterSize(std::max(12.0f, (5.0f * gnodesize) / (3 + (int)text.size())));
         chars.setString(text);
         chars.setPosition(pos - 0.5f * sizes(chars.getLocalBounds()) - poses(chars.getLocalBounds()));
         chars.setFillColor(onyx);

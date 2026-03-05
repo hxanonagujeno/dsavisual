@@ -54,7 +54,6 @@ void display() {
 
 bool polled;
 int main() {
-    freopen("DEBUG.TXT", "w", stdout);
     init();
     while (window.isOpen()) {
         polled = 0;
