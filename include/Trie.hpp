@@ -31,6 +31,7 @@ struct Trie {
         nodes.clear();
         nodes.emplace_back(); 
         nodes[0].cnt = 1;
+        nodes[0].text = '#';
         texts.clear();
         rev.clear();
         rev.emplace_back(0);
@@ -127,25 +128,24 @@ struct Trie {
         g.clear();
         int m = (int)nodes.size();
         std::vector<int> depth(m, -1);
-        std::queue<int> q;
+        std::deque<int> q;
         depth[0] = 0;
-        q.push(0);
+        q.push_back(0);
         int maxd = 0;
+        std::vector<std::vector<int>> layers;
         while (!q.empty()) {
-            int u = q.front(); q.pop();
-            for (int c = 0; c < 128; c++) {
+            int u = q.front(); q.pop_front();
+            maxd = std::max(maxd, depth[u]);
+            while ((int)layers.size() <= maxd) {
+                layers.emplace_back();
+            }
+            layers[depth[u]].emplace_back(u);
+            for (int c = 127; c >= 0; c--) {
                 int v = nodes[u].nxt[(int)c];
                 if (v != -1 && nodes[v].cnt > 0) {
                     depth[v] = depth[u] + 1;
-                    maxd = std::max(maxd, depth[v]);
-                    q.push(v);
+                    q.push_front(v);
                 }
-            }
-        }
-        std::vector<std::vector<int>> layers(maxd + 1);
-        for (int i = 0; i < m; i++) {
-            if (depth[i] != -1) {
-                layers[depth[i]].push_back(i);
             }
         }
 

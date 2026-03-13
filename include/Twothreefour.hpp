@@ -28,7 +28,9 @@ struct Twothreefour {
             }
             tmp += ", ";
         }
-        tmp.pop_back(); tmp.pop_back();
+        if ((int)tmp.size() >= 2) {
+            tmp.pop_back(); tmp.pop_back();
+        }
         return tmp;
     }
 
@@ -57,26 +59,6 @@ struct Twothreefour {
     std::vector<int> cnvid;
     std::unordered_map<int, int> cnt;
     int rut;
-
-    void debugprint() {
-        int m = (int)nodes.size();
-        std::cout << m << " nodes" << std::endl;
-        for (int i = 0; i < m; i++) {
-            std::cout << i << " has " << (int)nodes[i].val.size() << " vals: ";
-            for (int t: nodes[i].val) {
-                std::cout << t << " ";
-            }
-            std::cout << std::endl;
-            std::cout << i << " has " << (int)nodes[i].child.size() << " children: ";
-            for (int t: nodes[i].child) {
-                std::cout << t << " ";
-            }
-            std::cout << std::endl;
-            std::cout << i << "'s par: " << (int)nodes[i].par;
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
-    }
 
     Twothreefour() {
         clear();
@@ -126,7 +108,6 @@ struct Twothreefour {
             nodes[cur.child[4]].par = (int)nodes.size() - 1;
             cur.child.pop_back(); cur.child.pop_back();
         }
-        debugprint();
         recreate(g);
         g.gnodes[p].color = sf::Color::Yellow;
         g.gnodes[cur.par].color = sf::Color::Magenta;
@@ -217,7 +198,7 @@ struct Twothreefour {
         }
         std::vector<std::vector<int>> layers(maxd + 1);
         for (int i = 0; i < m; i++) {
-            layers[depth[i]].push_back(i);
+            layers[depth[i]].emplace_back(i);
         }
 
         float currenty = 0.0f;
@@ -257,10 +238,12 @@ struct Twothreefour {
     void load(const Data& data, const Graph& f, Graph& g, std::vector<Graph>& graphs) {
         graphs.clear();
         dnt.clear();
-        if ((int)nodes.size() > 15) {
+        if ((int)nodes.size() > (int)data.textforms.size() + 2) {
             clear();
         }
         if (cnt.empty()) {
+            recreate(g);
+            graphs.emplace_back(); graphs.back().copy(g);
             for (const Textform& x: data.textforms) {
                 int t = customtoi(x.text);
                 if (t == inf) continue;
