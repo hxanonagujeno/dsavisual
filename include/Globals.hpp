@@ -43,6 +43,18 @@ int sqrdis(const sf::Vector2i& a, const sf::Vector2i& b) {
     return sqr(a.x - b.x) + sqr(a.y - b.y);
 }
 
+float sqr(float x) {
+    return x * x;
+}
+
+float sqrdis(const sf::Vector2f& a) {
+    return sqr(a.x) + sqr(a.y);
+}
+
+float sqrdis(const sf::Vector2f& a, const sf::Vector2f& b) {
+    return sqr(a.x - b.x) + sqr(a.y - b.y);
+}
+
 int sqrlen(const sf::Vector2i& a) {
     return sqr(a.x) + sqr(a.y);
 }
@@ -58,6 +70,11 @@ sf::Vector2f sizes(const sf::FloatRect& a) {
 sf::Color operator *(float x, sf::Color col) {
     return sf::Color{(unsigned char)(col.r * x), (unsigned char)(col.g * x), (unsigned char)(col.b * x), (unsigned char)(col.a * x)};
 }
+
+sf::Vector2f operator *(float x, sf::Vector2f pos) {
+    return sf::Vector2f{x * pos.x, x * pos.y};
+}
+
 
 bool animating = 0;
 bool stepbystep = 0;
