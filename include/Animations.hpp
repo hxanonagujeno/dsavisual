@@ -46,13 +46,15 @@ struct Animations {
             int p = reid[t.a->id ^ t.b->id];
             F.gedges[p].a = &F.gnodes[reid[t.a->id]];
             F.gedges[p].b = &F.gnodes[reid[t.b->id]];
-            g.gedges[p].color.a = 255;
+            F.gedges[p].weight = t.weight;
+            g.gedges[p].color = t.color;
         }
         for (const Gedge& t: H.gedges) {
             int p = reid[t.a->id ^ t.b->id];
             F.gedges[p].a = &F.gnodes[reid[t.a->id]];
             F.gedges[p].b = &F.gnodes[reid[t.b->id]];
-            h.gedges[p].color.a = 255;
+            F.gedges[p].weight = t.weight;
+            h.gedges[p].color = t.color;
         }
     }
 

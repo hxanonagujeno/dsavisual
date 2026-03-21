@@ -40,6 +40,9 @@ struct Graph {
             t.display();
         }
         for (Gnode& t: gnodes) {
+            if (t.color == orange) {
+                std::cout << "wow" << std::endl;
+            }
             t.display();
         }
     }
@@ -74,6 +77,8 @@ struct Graph {
         }
         for (const Gedge& t: g.gedges) {
             gedges.emplace_back(gnodes[reid[t.a]], gnodes[reid[t.b]]);
+            gedges.back().color = t.color;
+            gedges.back().weight = t.weight;
         }
     }
 };

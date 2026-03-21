@@ -6,7 +6,7 @@
 #include <Linearprobing.hpp>
 #include <Twothreefour.hpp>
 #include <Trie.hpp>
-#include <Kruskal.hpp>
+#include <Prim.hpp>
 #include <Dijkstra.hpp>
 #include <Animations.hpp>
 
@@ -17,7 +17,7 @@ struct Structures {
     Linkedlist linkedlist;
     Linearprobing linearprobing;
     Twothreefour twothreefour;
-    Kruskal kruskal;
+    Prim prim;
     Dijkstra dijkstra;
     Trie trie;
     Data* datapnt;
@@ -93,9 +93,9 @@ struct Structures {
             trie.clear();
         }
         if (structuremode == 6) {
-            kruskal.load(*datapnt, graph, graph2, graphs);
+            prim.load(*datapnt, graph, graph2, graphs);
         } else {
-            kruskal.clear();
+            prim.clear();
         }
         if (structuremode == 7) {
             dijkstra.load(*datapnt, graph, graph2, graphs);

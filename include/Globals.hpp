@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 sf::Vector2f zero2f = {0.0f, 0.0f};
+sf::Color orange = {255, 128, 0};
 sf::Color ivory = {232, 232, 232};
 sf::Color silver = {192, 192, 192};
 sf::Color slate = {160, 160, 160};

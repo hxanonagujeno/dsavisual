@@ -4,7 +4,7 @@
 #include <Globals.hpp>
 #include <Graph.hpp>
 
-struct Kruskal {
+struct Prim {
     std::vector<std::string> parse(const std::string& s) {
         std::vector<std::string> res;
         std::string tmp = "";
@@ -21,7 +21,7 @@ struct Kruskal {
         return res;
     }
 
-    Kruskal() {
+    Prim() {
         clear();
     }
 
