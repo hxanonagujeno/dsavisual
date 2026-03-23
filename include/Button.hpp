@@ -1,6 +1,7 @@
 #pragma once
 #include <bits/stdc++.h>
 #include <SFML/Graphics.hpp>
+#include <CustomDraws.hpp>
 
 struct Button {
     sf::Vector2f pos;
@@ -17,7 +18,7 @@ struct Button {
     Button(const sf::Vector2f& _pos = zero2f, const sf::Vector2f& _sz = sf::Vector2f{100.0f, 100.0f}, const std::string& _text = "", int _id = 0, int _fontsz = -1) {
         pos = _pos;
         sz = _sz;
-        color = silver;
+        color = Wwhite;
         text = _text;
         id = _id;
         hover = 0;
@@ -47,15 +48,9 @@ struct Button {
     void tickspecials() {
         if (id == 8) {
             if (stepbystep) {
-                if (text.back() == 'F') {
-                    text.erase(text.end() - 2, text.end());
-                    text += 'N';
-                }
+                text = "Step-by-step";
             } else {
-                if (text.back() == 'N') {
-                    text.pop_back();
-                    text += "FF";
-                }
+                text = "All-at-once";
             }
             return;
         }
@@ -69,9 +64,9 @@ struct Button {
         }
         if (2 <= id && id <= 7) {
             if (structuremode == id) {
-                color = slate;
+                color = Wsilver;
             } else {
-                color = silver;
+                color = Wwhite;
             }
         }
     }
@@ -79,7 +74,7 @@ struct Button {
     void tick() {
         tickspecials();
         if (animating) {
-            colormod = silver - gray;
+            colormod = Wwhite - Wslate;
             hover = 0;
             click = 0;
             hold = 0;
@@ -87,9 +82,9 @@ struct Button {
         }
         colormod = nocolor;
         if (hover) {
-            colormod = silver - slate;
+            colormod = Wwhite - Wsilver;
             if (click) {
-                colormod = silver - gray;
+                colormod = Wwhite - Wslate;
                 if (!hold) {
                     buttonevent[id] = 1;
                 }
@@ -100,6 +95,7 @@ struct Button {
 
     sf::RectangleShape box;
     sf::Text chars;
+
     void display() {
         box.setPosition(pos);
         box.setSize(sz);
@@ -108,10 +104,14 @@ struct Button {
         chars.setFont(font);
         chars.setCharacterSize(fontsz > 0? fontsz: (1.2f * sz.x) / (int)text.size());
         chars.setString(text);
-        chars.setPosition(pos - 0.5f * sizes(chars.getLocalBounds()) - poses(chars.getLocalBounds()) + 0.5f * sz);
+        chars.setPosition(pos + 0.5f * (sz - sizes(chars.getLocalBounds())) - poses(chars.getLocalBounds()));
         chars.setFillColor(onyx);
 
-        window.draw(box);
+        if (id == 1) {
+            customButtonHighlight(box);
+        } else {
+            customButton(box);
+        }
         window.draw(chars);
     }
 };

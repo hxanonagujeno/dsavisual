@@ -8,15 +8,15 @@ struct Controls {
     std::vector<Button> buttons;
 
     Controls() {
-        buttons.emplace_back(sf::Vector2f{0.00f, 0.00f}, sf::Vector2f{240.0f, 60.0f}, "ANIMATE", 1, 36);
-        buttons.emplace_back(sf::Vector2f{0.00f, 60.0f}, sf::Vector2f{120.0f, 60.0f}, "STEPS OFF", 8, 24);
-        buttons.emplace_back(sf::Vector2f{120.f, 60.0f}, sf::Vector2f{120.0f, 60.0f}, "x1", 9, 24);
-        buttons.emplace_back(sf::Vector2f{0.00f, 120.f}, sf::Vector2f{80.00f, 60.0f}, "LINKED\nLIST", 2, 16);
-        buttons.emplace_back(sf::Vector2f{80.0f, 120.f}, sf::Vector2f{80.00f, 60.0f}, "LINEAR\nPROBING", 3, 16);
-        buttons.emplace_back(sf::Vector2f{160.f, 120.f}, sf::Vector2f{80.00f, 60.0f}, "2-3-4", 4, 20);
-        buttons.emplace_back(sf::Vector2f{0.00f, 180.f}, sf::Vector2f{80.00f, 60.0f}, "TRIE", 5, 20);
-        buttons.emplace_back(sf::Vector2f{80.0f, 180.f}, sf::Vector2f{80.00f, 60.0f}, "PRIM", 6, 20);
-        buttons.emplace_back(sf::Vector2f{160.f, 180.f}, sf::Vector2f{80.00f, 60.0f}, "DIJKSTRA", 7, 18);
+        buttons.emplace_back(sf::Vector2f{84.0f, 18.0f}, sf::Vector2f{72.00f, 24.0f}, "Animate!", 1, 12);
+        buttons.emplace_back(sf::Vector2f{24.0f, 78.0f}, sf::Vector2f{72.00f, 24.0f}, "Steps off", 8, 12);
+        buttons.emplace_back(sf::Vector2f{144.f, 78.0f}, sf::Vector2f{72.00f, 24.0f}, "x1", 9, 11);
+        buttons.emplace_back(sf::Vector2f{4.00f, 138.f}, sf::Vector2f{72.00f, 24.0f}, "Linked list", 2, 12);
+        buttons.emplace_back(sf::Vector2f{84.0f, 138.f}, sf::Vector2f{72.00f, 24.0f}, "L. probing", 3, 12);
+        buttons.emplace_back(sf::Vector2f{164.f, 138.f}, sf::Vector2f{72.00f, 24.0f}, "2-3-4", 4, 12);
+        buttons.emplace_back(sf::Vector2f{4.00f, 198.f}, sf::Vector2f{72.00f, 24.0f}, "Trie", 5, 12);
+        buttons.emplace_back(sf::Vector2f{84.0f, 198.f}, sf::Vector2f{72.00f, 24.0f}, "Prim", 6, 12);
+        buttons.emplace_back(sf::Vector2f{164.f, 198.f}, sf::Vector2f{72.00f, 24.0f}, "Dijkstra", 7, 12);
     }
 
     void check() {
