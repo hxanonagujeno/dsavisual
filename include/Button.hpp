@@ -48,9 +48,9 @@ struct Button {
     void tickspecials() {
         if (id == 8) {
             if (stepbystep) {
-                text = "Step-by-step";
+                text = "By step";
             } else {
-                text = "All-at-once";
+                text = "All at once";
             }
             return;
         }

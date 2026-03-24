@@ -10,6 +10,7 @@ sf::Color slate = {160, 160, 160};
 sf::Color gray = {128, 128, 128};
 sf::Color charcoal = {96, 96, 96};
 sf::Color onyx = {36, 36, 36};
+sf::Color Wwhite2 = {248, 248, 248};
 sf::Color Wwhite = {240, 240, 240};
 sf::Color Wivory = {225, 225, 225};
 sf::Color Wsilver = {212, 212, 212};

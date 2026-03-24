@@ -14,13 +14,13 @@ struct Data {
     int lim;
 
     Data() {
-        textforms.emplace_back(sf::Vector2f{0.0f, 240.0f});
+        textforms.emplace_back(sf::Vector2f{30.0f, 240.0f});
         focus = 0;
         add = 0;
         del = 0;
         bsp = 0;
         arrow = 0;
-        lim = 18;
+        lim = (600 - 240) / 15 - 1;
     }
 
     void checktextforms() {
@@ -84,9 +84,9 @@ struct Data {
                 add = 0;
                 return;
             }
-            textforms.emplace(textforms.begin() + p + 1, sf::Vector2f{0.0f, 240.0f + 20.0f * p});
+            textforms.emplace(textforms.begin() + p + 1, sf::Vector2f{30.0f, 240.0f + 15.0f * p});
             for (int i = p + 1; i <= n; i++) {
-                textforms[i].pos += {0.0f, 20.0f};
+                textforms[i].pos += {0.0f, 15.0f};
             }
             textforms[p].focus = 0;
             textforms[p + 1].focus = 1;
@@ -100,7 +100,7 @@ struct Data {
             }
             textforms.erase(textforms.begin() + p + 1);
             for (int i = p + 1; i < n - 1; i++) {
-                textforms[i].pos += {0.0f, -20.0f};
+                textforms[i].pos += {0.0f, -15.0f};
             }
             del = 0;
             return;
@@ -112,7 +112,7 @@ struct Data {
             }
             textforms.erase(textforms.begin() + p);
             for (int i = p; i < n - 1; i++) {
-                textforms[i].pos += {0.0f, -20.0f};
+                textforms[i].pos += {0.0f, -15.0f};
             }
             textforms[std::max(0, p - 1)].focus = 1;
             bsp = 0;
@@ -126,7 +126,12 @@ struct Data {
         }
     }
 
+    sf::RectangleShape box;
     void display() {
+        box.setPosition(textforms[0].pos - sf::Vector2f{2.0f, 2.0f});
+        box.setSize(textforms.back().pos + textforms.back().sz - textforms[0].pos + sf::Vector2f{4.0f, 4.0f});
+        customButton(box);
+
         for (Textform& t: textforms) {
             t.display();
         }
@@ -138,8 +143,8 @@ struct Data {
         file.open(f);
         int cnt = 0;
         textforms.clear();
-        while (cnt < 15 && std::getline(file, line)) {
-            textforms.emplace_back(sf::Vector2f{0.0f, 240.0f + 20.0f * cnt}, line);
+        while (cnt < 18 && std::getline(file, line)) {
+            textforms.emplace_back(sf::Vector2f{30.0f, 240.0f + 15.0f * cnt}, line);
             cnt++;
         }
         file.close();

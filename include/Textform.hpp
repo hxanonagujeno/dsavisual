@@ -14,9 +14,9 @@ struct Textform {
 
     Textform(const sf::Vector2f& _pos = zero2f, const std::string& _text = "") {
         pos = _pos;
-        sz = {240, 20};
+        sz = {180, 15};
         focus = 0;
-        lim = std::min(9, int(1.2f * sz.x / sz.y - 1));
+        lim = 18;
         text = _text;
         buf = 0;
     }
@@ -62,9 +62,9 @@ struct Textform {
 
     void tickcolor() {
         if (focus) {
-            color = slate;
+            color = Wivory;
         } else {
-            color = silver;
+            color = Wwhite2;
         }
     }
 
@@ -96,7 +96,7 @@ struct Textform {
 
     void tick() {
         if (animating) {
-            color = slate;
+            color = Wsilver;
             return;
         }
         tickcolor();
@@ -110,9 +110,9 @@ struct Textform {
         box.setSize(sz);
         box.setFillColor(color);
         
-        chars.setPosition(pos + sf::Vector2f{0.0f, -2.0f});
+        chars.setPosition(pos + sf::Vector2f{1.0f, -1.0f});
         chars.setFont(font);
-        chars.setCharacterSize(sz.y);
+        chars.setCharacterSize(12);
         chars.setFillColor(onyx);
         chars.setString(text);
         
