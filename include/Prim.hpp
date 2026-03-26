@@ -48,7 +48,7 @@ struct Prim: Gengine {
             graphs.emplace_back(); graphs.back().copy(g);
             for (const std::pair<int, int>& t: con[u]) {
                 int v = t.first, w = t.second, V = tmp[v];
-                if (V == par[U] || par[V] != -1) continue;
+                if (v == par[U] || par[V] != -1) continue;
                 col.erase({dis[V], v});
                 mnz(dis[V], w);
                 col.insert({dis[V], v});
@@ -57,6 +57,7 @@ struct Prim: Gengine {
                 q.push({w, v, u});
                 float cur = 0.9f;
                 for (const std::pair<int, int>& t: col) {
+                    if (g.gnodes[tmp[t.second]].color == defnodecol) continue;
                     float r = 1.0f / (cur *= 1.75f);
                     g.gnodes[tmp[t.second]].color = r * sf::Color::Yellow + (1.0f - r) * slate;
                 }

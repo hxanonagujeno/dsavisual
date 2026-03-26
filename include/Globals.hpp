@@ -17,19 +17,20 @@ sf::Color Wsilver = {212, 212, 212};
 sf::Color Wslate = {198, 198, 198};
 sf::Color Wgray = {174, 174, 174};
 sf::Color Wonyx = {112, 112, 112};
-sf::Color Wdarkcyan = {60, 127, 127};
 sf::Color Wcyan = {72, 215, 251};
 
 sf::Color nocolor = {0, 0, 0, 0};
 sf::Color transparent = {0, 0, 0, 128};
 sf::Color solid = {0, 0, 0, 255};
 
-const int gnodesize = 24;
+const int gnodesize = 20;
 const int gedgesize = 1;
 const int inf = 2e9;
 
 const float pi = 3.14159265358793f;
 const float e = 2.718281828459045f;
+
+const sf::Color defnodecol = Wwhite;
 
 template<class T> bool mnz(T& x, const T& y) {
     return (x > y? (x = y, 1): 0);

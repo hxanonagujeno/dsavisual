@@ -45,16 +45,30 @@ void customButton(sf::RectangleShape shape){
     sf::Vector2f A = shape.getPosition(), B = A + shape.getSize();
     sf::Color col = shape.getFillColor();
     roundedRectangle(A + sf::Vector2f{-1, -1}, B + sf::Vector2f{1, 1}, Wonyx, 6);
-    roundedRectangle(A, B, Wwhite, 5);
+    roundedRectangle(A, B, Wwhite2, 5);
     roundedRectangle(A + sf::Vector2f{1, 1}, B + sf::Vector2f{-1, -1}, col, 4);
     roundedRectangleBottom(A + sf::Vector2f{1, 1}, B + sf::Vector2f{-1, -1}, {0, 0, 0, 20}, 4);
 }
 
-void customButtonHighlight(sf::RectangleShape shape){
+void customButtonHighlight(sf::RectangleShape shape, sf::Color hcol){
     sf::Vector2f A = shape.getPosition(), B = A + shape.getSize();
     sf::Color col = shape.getFillColor();
-    roundedRectangle(A + sf::Vector2f{-1, -1}, B + sf::Vector2f{1, 1}, Wdarkcyan, 6);
-    roundedRectangle(A, B, Wcyan, 5);
+    roundedRectangle(A + sf::Vector2f{-1, -1}, B + sf::Vector2f{1, 1}, 0.5f * hcol, 6);
+    roundedRectangle(A, B, hcol, 5);
     roundedRectangle(A + sf::Vector2f{1, 1}, B + sf::Vector2f{-1, -1}, col, 4);
     roundedRectangleBottom(A + sf::Vector2f{1, 1}, B + sf::Vector2f{-1, -1}, {0, 255, 255, 20}, 4);
+}
+
+void customNode(sf::CircleShape shape){
+    float r = shape.getRadius();
+    sf::Vector2f A = shape.getPosition() - sf::Vector2f{r, r}, B = shape.getPosition() + sf::Vector2f{r, r};
+    sf::Color col = shape.getFillColor();
+    sf::Color gcol = (col == defnodecol? sf::Color::Black: col) - solid;
+    roundedRectangle(A + sf::Vector2f{-3, -3}, B + sf::Vector2f{3, 3}, gcol + sf::Color{0, 0, 0, 10}, r + 3);
+    roundedRectangle(A + sf::Vector2f{-2, -2}, B + sf::Vector2f{2, 2}, gcol + sf::Color{0, 0, 0, 20}, r + 2);
+    roundedRectangle(A + sf::Vector2f{-1, -1}, B + sf::Vector2f{1, 1}, Wonyx, r + 1);
+    roundedRectangle(A, B, Wwhite2, r);
+    roundedRectangle(A + sf::Vector2f{1, 1}, B + sf::Vector2f{-1, -1}, col, r - 1);
+    roundedRectangle(A + sf::Vector2f{4, 4}, B + sf::Vector2f{-4, -4}, col + sf::Color{4, 4, 4, 0}, r - 5);
+    roundedRectangle(A + sf::Vector2f{9, 9}, B + sf::Vector2f{-9, -9}, col + sf::Color{8, 8, 8, 0}, r - 9);
 }

@@ -113,16 +113,16 @@ struct Twothreefour {
         g.gnodes[cur.par].color = sf::Color::Magenta;
         g.gnodes.back().color = sf::Color::Magenta;
         graphs.emplace_back(); graphs.back().copy(g);
-        g.gnodes[p].color = silver;
-        g.gnodes[cur.par].color = silver;
-        g.gnodes.back().color = silver;
+        g.gnodes[p].color = defnodecol;
+        g.gnodes[cur.par].color = defnodecol;
+        g.gnodes.back().color = defnodecol;
         if (anc.val.size() == 4) split(g, graphs, cur.par);
     }
 
     int add(Graph& g, std::vector<Graph>& graphs, int p, int t) {
         g.gnodes[p].color = sf::Color::Yellow;
         graphs.emplace_back(); graphs.back().copy(g);
-        g.gnodes[p].color = silver;
+        g.gnodes[p].color = defnodecol;
         Node& cur = nodes[p];
         int m = (int)cur.val.size();
         if (cur.child.empty()) {

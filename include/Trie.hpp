@@ -58,7 +58,7 @@ struct Trie {
             if (rev[p] != -1) {
                 g.gnodes[rev[p]].color = sf::Color::Yellow;
                 graphs.emplace_back(); graphs.back().copy(g);
-                g.gnodes[rev[p]].color = silver;
+                g.gnodes[rev[p]].color = defnodecol;
             }
         }
         for (int i: poses) if (rev[i] != -1) {
@@ -66,7 +66,7 @@ struct Trie {
         }
         graphs.emplace_back(); graphs.back().copy(g);
         for (int i: poses) if (rev[i] != -1) {
-            g.gnodes[rev[i]].color = silver;
+            g.gnodes[rev[i]].color = defnodecol;
         }
         graphs.emplace_back(); graphs.back().copy(g);
         if (ogsz == (int)g.gnodes.size()) {
@@ -91,7 +91,7 @@ struct Trie {
             if (rev[p] != -1) {
                 g.gnodes[rev[p]].color = sf::Color::Yellow;
                 graphs.emplace_back(); graphs.back().copy(g);
-                g.gnodes[rev[p]].color = silver;
+                g.gnodes[rev[p]].color = defnodecol;
             }
         }
         for (int i: poses) if (rev[i] != -1) {
@@ -100,7 +100,7 @@ struct Trie {
         graphs.emplace_back(); graphs.back().copy(g);
         recreate(g);
         for (int i: poses) if (rev[i] != -1) {
-            g.gnodes[rev[i]].color = silver;
+            g.gnodes[rev[i]].color = defnodecol;
         }
         graphs.emplace_back(); graphs.back().copy(g);
         if (ogsz == (int)g.gnodes.size()) {

@@ -108,7 +108,7 @@ struct Button {
         chars.setFillColor(onyx);
 
         if (id == 1) {
-            customButtonHighlight(box);
+            customButtonHighlight(box, Wcyan);
         } else {
             customButton(box);
         }

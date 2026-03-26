@@ -2,6 +2,7 @@
 #include <bits/stdc++.h>
 #include <SFML/Graphics.hpp>
 #include <Globals.hpp>
+#include <CustomDraws.hpp>
 
 struct Gnode {
     sf::Vector2f pos;
@@ -10,7 +11,7 @@ struct Gnode {
     bool focus;
     int id;
 
-    Gnode(const std::string& _text = "", const sf::Vector2f& _pos = zero2f, const sf::Color& _color = silver) {
+    Gnode(const std::string& _text = "", const sf::Vector2f& _pos = zero2f, const sf::Color& _color = defnodecol) {
         pos = _pos;
         color = _color;
         text = _text;
@@ -70,12 +71,12 @@ struct Gnode {
         box.setFillColor(color);
         
         chars.setFont(font);
-        chars.setCharacterSize(std::max(12.0f, (5.0f * gnodesize) / (3 + (int)text.size())));
+        chars.setCharacterSize(std::max(9.0f, (4.0f * gnodesize) / (3 + (int)text.size())));
         chars.setString(text);
         chars.setPosition(pos - 0.5f * sizes(chars.getLocalBounds()) - poses(chars.getLocalBounds()));
         chars.setFillColor(onyx);
 
-        window.draw(box);
+        customNode(box);
         window.draw(chars);
     }
 };

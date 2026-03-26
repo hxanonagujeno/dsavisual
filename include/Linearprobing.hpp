@@ -27,7 +27,7 @@ struct Linearprobing {
         for (int j = 0; j < n; j++) {
             g.gnodes[i].color = sf::Color::Yellow;
             graphs.emplace_back(); graphs.back().copy(g);
-            g.gnodes[i].color = silver;
+            g.gnodes[i].color = defnodecol;
             if (vals[i].empty() || vals[i][0] == '#') break;
             i = (i + 1) % n;
         }
@@ -42,7 +42,7 @@ struct Linearprobing {
 		for (int j = 0; j < n; j++) {
             g.gnodes[i].color = sf::Color::Yellow;
             graphs.emplace_back(); graphs.back().copy(g);
-            g.gnodes[i].color = silver;
+            g.gnodes[i].color = defnodecol;
 			if (vals[i] == s) {
                 g.gnodes[i].text = "#";
                 graphs.emplace_back(); graphs.back().copy(g);
