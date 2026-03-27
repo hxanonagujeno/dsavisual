@@ -22,6 +22,8 @@ struct Structures {
     Trie trie;
     Data* datapnt;
     int curtype = 2;
+    int curframe = 0;
+    bool nxtframe = 0, prvframe = 0, allframe = 0;
 
     Structures() {
         structuremode = 1;
@@ -30,30 +32,98 @@ struct Structures {
     }
     
     void check() {
+        if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == sf::Keyboard::Left) {
+                prvframe = 1;
+            } else 
+            if (event.key.code == sf::Keyboard::Right) {
+                nxtframe = 1;
+            } else 
+            if (event.key.code == sf::Keyboard::Enter) {
+                allframe = 1;
+            }
+        }
         graph.check();
     }
 
     void tick() {
-        if (!animating) {
-            if (buttonevent[1]) {
-                load(*datapnt);
-            }
-            if (!graphs.empty()) {
-                graph2.copy(graphs.back());
-                graphs.pop_back();
-                animations.load(graph, graph2, animationtime);
-            }
-        } else {
-            animations.tick();
+        if (!stepbystep) {
             if (!animating) {
-                graph.copy(graph2);
+                if (buttonevent[1]) {
+                    load(*datapnt);
+                }
                 if (!graphs.empty()) {
                     graph2.copy(graphs.back());
                     graphs.pop_back();
                     animations.load(graph, graph2, animationtime);
                 }
+            } else {
+                animations.tick();
+                if (!animating) {
+                    graph.copy(graph2);
+                    if (!graphs.empty()) {
+                        graph2.copy(graphs.back());
+                        graphs.pop_back();
+                        animations.load(graph, graph2, animationtime);
+                    }
+                }
+            }
+        } else {
+            if (buttonevent[1]) {
+                load(*datapnt);
+                graph2.copy(graphs[curframe = 0]);
+                animations.load(graph, graph2, animationtime);
+            }
+            if (animating || showsteps) {
+                if (allframe) {
+                    reverse(graphs.begin(), graphs.end());
+                    for (int i = 0; i <= curframe; i++) {
+                        if (!graphs.empty()) {
+                            graphs.pop_back();
+                        }
+                    }
+                    stepbystep = 0;
+                    showsteps = 0;
+                } else {
+                    if (!showsteps) {
+                        animations.tick();
+                        if (nxtframe || prvframe) {
+                            animating = 0;
+                        }
+                        if (!animating) {
+                            graph.copy(graph2);
+                            showsteps = 1;
+                        }
+                    } else {
+                        if (!animating) {
+                            if (nxtframe) {
+                                if (curframe + 1 < (int)graphs.size()) {
+                                    graph2.copy(graphs[++curframe]);
+                                    animations.load(graph, graph2, animationtime);
+                                    showsteps = 0;
+                                } else {
+                                    graphs.clear();
+                                    showsteps = 0;
+                                    animating = 0;
+                                }
+                            } else
+                            if (prvframe) {
+                                if (curframe - 1 >= 0) {
+                                    graph2.copy(graphs[--curframe]);
+                                    animations.load(graph, graph2, animationtime);
+                                    showsteps = 0;
+                                }
+                            }
+                        } else {
+                            showsteps = 0;
+                        }
+                    }
+                }
             }
         }
+        nxtframe = 0;
+        prvframe = 0;
+        allframe = 0;
         graph.tick();
     }
 

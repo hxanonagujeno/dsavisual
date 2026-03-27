@@ -15,7 +15,7 @@ struct Graph {
     }
     
     void checkgnodes() {
-        if (animating) return;
+        if (animating || showsteps) return;
         for (auto t = gnodes.rbegin(); t != gnodes.rend(); t++) {
             t->check();
             if (t->focus) break;
@@ -40,9 +40,6 @@ struct Graph {
             t.display();
         }
         for (Gnode& t: gnodes) {
-            if (t.color == orange) {
-                std::cout << "wow" << std::endl;
-            }
             t.display();
         }
     }

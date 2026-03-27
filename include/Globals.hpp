@@ -92,6 +92,7 @@ sf::Vector2f operator *(float x, sf::Vector2f pos) {
 
 
 bool animating = 0;
+bool showsteps = 0;
 bool stepbystep = 0;
 
 bool buttonevent[128];
@@ -100,7 +101,7 @@ bool keyboardvis[256];
 
 int structuremode = 1;
 
-float animationtime = 1.0f;
+float animationtime = 0.5f;
 
 extern sf::RenderWindow window;
 extern sf::Event event;
@@ -115,8 +116,8 @@ void reglobe() {
         stepbystep ^= 1;
     }
     if (buttonevent[9]) {
-        animationtime += (animationtime < 1? 0.25f: 0.5f);
-        if (animationtime == 2.5f) animationtime = 0.25f;
+        animationtime += (animationtime < 0.5f? 0.10f: 0.25f);
+        if (animationtime == 1.75f) animationtime = 0.10f;
     }
     memset(buttonevent, 0, sizeof(buttonevent));
     memset(keyboardvis, 0, sizeof(keyboardvis));

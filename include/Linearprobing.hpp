@@ -88,6 +88,7 @@ struct Linearprobing {
                 }
             }
         } else {
+            graphs.emplace_back(); graphs.back().copy(g);
             cnv.clear();
             for (const std::string& t: vals) {
                 if (!t.empty() && t[0] != '#') cnv[t] -= 1;
@@ -107,18 +108,8 @@ struct Linearprobing {
             }
         }
         
-        reverse(graphs.begin(),graphs.end());
         if (!stepbystep) { 
-            while ((int)graphs.size() > 1) {
-                graphs.pop_back();
-            }
-            if (!resized && !graphs.empty()) {
-                for (int i = 0; i < n; i++) {
-                    if (graphs[0].gnodes[i].text != f.gnodes[i].text) {
-                        graphs[0].gnodes[i].id = rani();
-                    }
-                }
-            }
+            reverse(graphs.begin(), graphs.end());
         }
     }
 };

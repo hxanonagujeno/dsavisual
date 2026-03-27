@@ -54,7 +54,6 @@ struct Linkedlist {
         preload(data, f, g);
         graphs.clear();
         graphs.emplace_back(); graphs.back().copy(g);
-        if (!stepbystep) return;
         int m = f.gnodes.size(), n = g.gnodes.size();
         for (Gnode& t: g.gnodes) t.pos += {0, gnodesize * -1.5f};
         graphs.emplace_back(); graphs.back().copy(g);

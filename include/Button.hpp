@@ -30,7 +30,7 @@ struct Button {
 
     sf::Vector2i mpos;
     void check() {
-        if (animating) return;
+        if (animating || showsteps) return;
         mpos = sf::Mouse::getPosition(window);
         hover = 0;
         click = 0;
@@ -73,7 +73,7 @@ struct Button {
 
     void tick() {
         tickspecials();
-        if (animating) {
+        if (animating || showsteps) {
             colormod = Wwhite - Wslate;
             hover = 0;
             click = 0;

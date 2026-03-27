@@ -124,11 +124,6 @@ struct Prim: Gengine {
         reedge(g); 
         graphs.emplace_back(); graphs.back().copy(g);
         prm(g, graphs);
-        if (!stepbystep) {
-            while (!graphs.empty()) {
-                graphs.pop_back();
-            }
-        }
         graphs.emplace_back(); graphs.back().copy(g);
         recreate(g);
         graphs.emplace_back(); graphs.back().copy(g);
@@ -136,6 +131,8 @@ struct Prim: Gengine {
         recreate(g); 
         reedge(g); 
         graphs.emplace_back(); graphs.back().copy(g);
-        reverse(graphs.begin(), graphs.end());
+        if (!stepbystep) { 
+            reverse(graphs.begin(), graphs.end());
+        }
     }
 };

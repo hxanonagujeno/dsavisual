@@ -269,12 +269,9 @@ struct Twothreefour {
             }
         }
         cnt = dnt;
-
-        reverse(graphs.begin(), graphs.end());
-        if (!stepbystep) {
-            while ((int)graphs.size() > 1) {
-                graphs.pop_back();
-            }
+        
+        if (!stepbystep) { 
+            reverse(graphs.begin(), graphs.end());
         }
     }
 };

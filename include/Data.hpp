@@ -57,7 +57,7 @@ struct Data {
     void check() {
         checktextforms();
         checkkey();
-        if (animating) {
+        if (animating || showsteps) {
             for (Textform& t: textforms) {
                 if (!t.text.empty() && t.text.back() == ' ') {
                     t.text.pop_back();
@@ -75,7 +75,13 @@ struct Data {
                 p = i;
             }
         }
-        if (p == -1) return;
+        if (p == -1) {
+            add = 0;
+            del = 0;
+            bsp = 0;
+            arrow = 0;
+            return;
+        }
         if (keyboardvis[sf::Keyboard::Enter]) add = 0;
         if (keyboardvis[sf::Keyboard::Delete]) del = 0;
         if (keyboardvis[sf::Keyboard::Backspace]) bsp = 0;
