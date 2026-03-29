@@ -82,5 +82,9 @@ struct Linkedlist {
             }
             i--; j--;
         }
+
+        if (stepbystep) {
+            reverse(graphs.begin(), graphs.end());
+        }
     }
 };

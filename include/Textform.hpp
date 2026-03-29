@@ -55,7 +55,7 @@ struct Textform {
     }
 
     void check() {
-        if (animating) return;
+        if (animating || showsteps) return;
         checkfocus();
         checktype();
     }
@@ -95,7 +95,7 @@ struct Textform {
     }
 
     void tick() {
-        if (animating) {
+        if (animating || showsteps) {
             color = Wsilver;
             return;
         }

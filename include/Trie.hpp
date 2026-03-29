@@ -179,6 +179,8 @@ struct Trie {
     std::map<std::string, int> dexts;
     void load(const Data& data, const Graph& f, Graph& g, std::vector<Graph>& graphs) {
         graphs.clear();
+        recreate(g);
+        graphs.emplace_back(); graphs.back().copy(g);
         dexts.clear();
         if (texts.empty()) {
             for (const Textform& x: data.textforms) {

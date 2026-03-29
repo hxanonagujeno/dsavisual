@@ -139,8 +139,9 @@ struct Structures {
         if (!datapnt) datapnt = &data;
         if (structuremode == 1) {
             linkedlist.load(*datapnt, graph, graph2, graphs);
+            graph.copy(graphs[0]);
+            graph2.copy(graphs.back());
             graphs.clear();
-            graph.copy(graph2);
         }
         if (structuremode == 2) {
             linkedlist.load(*datapnt, graph, graph2, graphs);

@@ -82,6 +82,7 @@ struct Linearprobing {
         if (resized) {
             vals.assign(n, "");
             recreate(g);
+            graphs.emplace_back(); graphs.back().copy(g);
             for (const Textform& t: data.textforms) {
                 if (!t.text.empty()) {
                     add(g, graphs, t.text);
@@ -108,7 +109,7 @@ struct Linearprobing {
             }
         }
         
-        if (!stepbystep) { 
+        if (!stepbystep) {
             reverse(graphs.begin(), graphs.end());
         }
     }

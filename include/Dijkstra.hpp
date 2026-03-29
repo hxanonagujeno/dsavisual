@@ -129,8 +129,6 @@ struct Dijkstra: Gengine {
         graphs.emplace_back(); graphs.back().copy(g);
         djk(g, graphs);
         graphs.emplace_back(); graphs.back().copy(g);
-        recreate(g);
-        graphs.emplace_back(); graphs.back().copy(g);
         djkedges.clear(); 
         recreate(g); 
         reedge(g); 

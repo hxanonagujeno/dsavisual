@@ -64,13 +64,13 @@ struct Gengine {
             if (z.first != t) total += getmov1(cur, z.second);
         }
         total = 3 * total;
-        for (int i = 0; i < 12; i++) {
-            float x = 240.0f + (i + 0.5f) * (600.0f / 12);
+        for (int i = 0; i < 15; i++) {
+            float x = 240.0f + (i + 0.5f) * (600.0f / 15);
             total += getmov1(cur, sf::Vector2f{x, 0.0f});
             total += getmov1(cur, sf::Vector2f{x, 600.0f});
         }
-        for (int i = 0; i < 12; i++) {
-            float y = (i + 0.5f) * (600.0f / 12);
+        for (int i = 0; i < 15; i++) {
+            float y = (i + 0.5f) * (600.0f / 15);
             total += getmov1(cur, sf::Vector2f{240.0f, y});
             total += getmov1(cur, sf::Vector2f{840.0f, y});
         }
