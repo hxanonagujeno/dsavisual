@@ -32,6 +32,8 @@ const float e = 2.718281828459045f;
 
 const sf::Color defnodecol = Wwhite;
 
+const sf::Vector2f origin = {0, 0};
+
 template<class T> bool mnz(T& x, const T& y) {
     return (x > y? (x = y, 1): 0);
 }
@@ -90,7 +92,6 @@ sf::Vector2f operator *(float x, sf::Vector2f pos) {
     return sf::Vector2f{x * pos.x, x * pos.y};
 }
 
-
 bool animating = 0;
 bool showsteps = 0;
 bool stepbystep = 0;
@@ -100,6 +101,7 @@ bool buttonevent[128];
 bool keyboardvis[256];
 
 int structuremode = 1;
+int codesection = 0;
 
 float animationtime = 0.5f;
 

@@ -67,7 +67,7 @@ struct Linkedlist {
                 for (int k = 0; k + 1 < sz; k++) if (k != j + 1 && k != j) {
                     g.gedges.emplace_back(g.gnodes[k], g.gnodes[k + 1]);
                 }
-                graphs.emplace_back(); graphs.back().copy(g);
+                graphs.emplace_back(); graphs.back().copy(g, 1);
                 i--; continue;
             }
             if (j && dp[i][j] == dp[i][j - 1]) {
@@ -77,7 +77,7 @@ struct Linkedlist {
                 for (int k = 0; k + 1 < sz; k++) {
                     g.gedges.emplace_back(g.gnodes[k], g.gnodes[k + 1]);
                 }
-                graphs.emplace_back(); graphs.back().copy(g);
+                graphs.emplace_back(); graphs.back().copy(g, 2);
                 j--; continue;
             }
             i--; j--;

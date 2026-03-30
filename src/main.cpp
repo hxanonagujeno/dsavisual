@@ -2,16 +2,13 @@
 #include <bits/stdc++.h>
 #include <SFML/Graphics.hpp>
 #include <Globals.hpp>
-#include <Button.hpp>
 #include <Controls.hpp>
-#include <Textform.hpp>
 #include <Data.hpp>
-#include <Graph.hpp>
-#include <Animations.hpp>
 #include <Background.hpp>
 #include <Structures.hpp>
+#include <Codedisplay.hpp>
 
-sf::RenderWindow window(sf::VideoMode(840, 600), "dsavisual", sf::Style::Titlebar | sf::Style::Close);
+sf::RenderWindow window(sf::VideoMode(1080, 600), "dsavisual", sf::Style::Titlebar | sf::Style::Close);
 sf::Event event;
 sf::Font font;
 
@@ -19,6 +16,7 @@ Background background;
 Controls controls;
 Data data;
 Structures structures;
+Codedisplay codedisplay;
 
 void init() {
     srand(time(0));
@@ -34,6 +32,7 @@ void check() {
     controls.check();
     data.check();
     structures.check();
+    codedisplay.check();
 }
 
 void tick() {
@@ -41,6 +40,7 @@ void tick() {
     controls.tick();
     data.tick();
     structures.tick();
+    codedisplay.tick();
 }
 
 void display() {
@@ -49,6 +49,8 @@ void display() {
     controls.display();
     data.display();
     structures.display();
+    codedisplay.display();
+    
     window.display();
 }
 

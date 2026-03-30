@@ -19,8 +19,8 @@ struct Animations {
         for (const Gnode& t: H.gnodes) {
             if (!reid.count(t.id)) reid[t.id] = N++;
         }
-        g.gnodes.assign(N, Gnode("", {540.0f, -120.0f}, charcoal - solid));
-        h.gnodes.assign(N, Gnode("", {540.0f, 720.00f}, charcoal - solid));
+        g.gnodes.assign(N, Gnode("", {540.0f, -120.0f}, defnodecol - solid));
+        h.gnodes.assign(N, Gnode("", {540.0f, 720.00f}, defnodecol - solid));
         F.gnodes.resize(N);
         for (const Gnode& t: G.gnodes) {
             int p = reid[t.id];
@@ -39,9 +39,9 @@ struct Animations {
         for (const Gedge& t: H.gedges) {
             if (!reid.count(t.a->id ^ t.b->id)) reid[t.a->id ^ t.b->id] = M++;
         }
-        g.gedges.assign(M, Gedge(g.gnodes[0], g.gnodes[0], 1, charcoal - solid));
-        h.gedges.assign(M, Gedge(h.gnodes[0], h.gnodes[0], 1, charcoal - solid));
-        F.gedges.assign(M, Gedge(F.gnodes[0], F.gnodes[0], 1, charcoal - solid));
+        g.gedges.assign(M, Gedge(g.gnodes[0], g.gnodes[0], 1, defnodecol - solid));
+        h.gedges.assign(M, Gedge(h.gnodes[0], h.gnodes[0], 1, defnodecol - solid));
+        F.gedges.assign(M, Gedge(F.gnodes[0], F.gnodes[0], 1, defnodecol - solid));
         for (const Gedge& t: G.gedges) {
             int p = reid[t.a->id ^ t.b->id];
             F.gedges[p].a = &F.gnodes[reid[t.a->id]];
@@ -60,6 +60,8 @@ struct Animations {
 
     void load(const Graph& G, const Graph& H, float t) {
         animating = 1;
+        codesection = H.codesection;
+        if (codesection) std::cout << "wtfwtf" << std::endl;
         load(G, H);
         start = clock();
         duration = t * CLOCKS_PER_SEC;
@@ -71,6 +73,7 @@ struct Animations {
         float r = 1.0f * (clock() - start) / duration;
         if (r > 1) {
             animating = 0;
+            codesection = 0;
             return;
         }
         r *= r * (3 - r * 2);

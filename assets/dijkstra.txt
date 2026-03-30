@@ -1,0 +1,25 @@
+struct Node {
+    int val;
+    Node* nxt;
+    Node* prv;
+};
+
+void add(Node* p, int v) {
+    if (!p) return;
+    p->nxt = 
+        new Node{v, p->nxt, p};
+}
+
+void del(Node* p) {
+    if (!p) return;
+    p->prv->nxt = p->nxt;
+    p->nxt->prv = p->prv;
+    delete p;
+}
+
+Node* get(Node* h, int v) {
+    while (h && h->val != v) {
+        h = h->next;
+    }
+    return h;
+}

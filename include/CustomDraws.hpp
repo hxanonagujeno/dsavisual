@@ -63,7 +63,8 @@ void customNode(sf::CircleShape shape){
     float r = shape.getRadius();
     sf::Vector2f A = shape.getPosition() - sf::Vector2f{r, r}, B = shape.getPosition() + sf::Vector2f{r, r};
     sf::Color col = shape.getFillColor();
-    sf::Color gcol = (col == defnodecol? sf::Color::Black: col) - solid;
+    sf::Uint8 mincol = std::min({col.r, col.g, col.b});
+    sf::Color gcol = col - sf::Color{mincol, mincol, mincol, 255};
     roundedRectangle(A + sf::Vector2f{-3, -3}, B + sf::Vector2f{3, 3}, gcol + sf::Color{0, 0, 0, 10}, r + 3);
     roundedRectangle(A + sf::Vector2f{-2, -2}, B + sf::Vector2f{2, 2}, gcol + sf::Color{0, 0, 0, 20}, r + 2);
     roundedRectangle(A + sf::Vector2f{-1, -1}, B + sf::Vector2f{1, 1}, Wonyx, r + 1);

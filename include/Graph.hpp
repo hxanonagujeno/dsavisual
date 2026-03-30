@@ -8,10 +8,12 @@
 struct Graph {
     std::vector<Gnode> gnodes;
     std::vector<Gedge> gedges;
+    int codesection;
 
     Graph() {
         gnodes.clear();
         gedges.clear();
+        codesection = 0;
     }
     
     void checkgnodes() {
@@ -44,27 +46,13 @@ struct Graph {
         }
     }
 
-    void randomize() {
-        gnodes.clear();
-        gedges.clear();
-        int n = rani(2, 6);
-        int m = rani(0, rani(1, n * (n - 1) / 2));
-        for (int i = 1; i <= n; i++) {
-            int x = rani(240 + gnodesize, 720 - gnodesize), y = rani(gnodesize, 480 - gnodesize);
-            gnodes.emplace_back(std::to_string(i), sf::Vector2f{1.0f * x, 1.0f * y});
-        }
-        for (int i = 1; i <= m; i++) {
-            gedges.emplace_back(gnodes[rani(0, n - 1)], gnodes[rani(0, n - 1)]);
-        }
-    }
-
     void clear() {
         gnodes.clear();
         gedges.clear();
     }
 
     std::unordered_map<Gnode*, int> reid;
-    void copy(Graph& g) {
+    void copy(Graph& g, int _codesection = 0) {
         gnodes = g.gnodes;
         gedges.clear();
         reid.clear();
@@ -76,6 +64,10 @@ struct Graph {
             gedges.emplace_back(gnodes[reid[t.a]], gnodes[reid[t.b]]);
             gedges.back().color = t.color;
             gedges.back().weight = t.weight;
+        }
+        codesection = _codesection;
+        if (codesection) {
+            std::cout << "wtf" << std::endl;
         }
     }
 };
