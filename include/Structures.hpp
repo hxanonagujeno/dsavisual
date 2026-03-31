@@ -121,6 +121,9 @@ struct Structures {
                 }
             }
         }
+        if (graphs.empty()) {
+            codesection = 0;
+        }
         nxtframe = 0;
         prvframe = 0;
         allframe = 0;

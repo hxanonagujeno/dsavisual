@@ -52,7 +52,7 @@ struct Graph {
     }
 
     std::unordered_map<Gnode*, int> reid;
-    void copy(Graph& g, int _codesection = 0) {
+    void copy(Graph& g, int _codesection = -1) {
         gnodes = g.gnodes;
         gedges.clear();
         reid.clear();
@@ -65,9 +65,6 @@ struct Graph {
             gedges.back().color = t.color;
             gedges.back().weight = t.weight;
         }
-        codesection = _codesection;
-        if (codesection) {
-            std::cout << "wtf" << std::endl;
-        }
+        codesection = (_codesection >= 0? _codesection: g.codesection);
     }
 };

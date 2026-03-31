@@ -7,25 +7,27 @@
 struct Codedisplay {
     int prevstructuremode = 0;
     std::vector<Textform> textforms;
-    std::bitset<32> highlight[8][32];
+    std::bitset<64> highlight[8][8];
     
     Codedisplay() {
         textforms.emplace_back(sf::Vector2f{870.0f, 30.0f});
         file.open("assets/highlight.txt");
         int i = 0, j = 0, k = 0;
         char x; int tmp;
-        file >> x >> tmp;
-        if (x == 'i') {
-            i = tmp;
-        } else 
-        if (x == 'j') {
-            j = tmp;
-        } else 
-        if (x == 'k') {
-            k = tmp;
-            highlight[i][j][k] = 1;
+        while (file >> x >> tmp) {
+            if (x == 'i') {
+                i = tmp;
+            } else 
+            if (x == 'j') {
+                j = tmp;
+            } else 
+            if (x == 'k') {
+                k = tmp;
+                highlight[i][j][k] = 1;
+                std::cout << i << " " << j << " " << k << std::endl;
+            }
         }
-        for (int i = 0; i < 32; i++) {
+        for (int i = 0; i < 8; i++) {
             highlight[1][i] = highlight[2][i];
         }
         file.close();
@@ -87,7 +89,7 @@ struct Codedisplay {
         textforms.clear();
         while (std::getline(file, line)) {
             textforms.emplace_back(sf::Vector2f{870.0f, 30.0f + 15.0f * cnt}, line);
-            cnt++;
+            ++cnt;
         }
         file.close();
     }
@@ -95,11 +97,17 @@ struct Codedisplay {
     sf::RectangleShape box;
     void display() {
         box.setPosition(textforms[0].pos - sf::Vector2f{2.0f, 2.0f});
-        box.setSize(textforms.back().pos + textforms.back().sz - textforms[0].pos + sf::Vector2f{4.0f, 4.0f});
+        sf::Vector2f tmp = sf::Vector2f{870.0f, 30.0f + 15.0f * (highlight[structuremode][codesection].count() - 1)};
+        box.setSize(tmp + textforms[0].sz - textforms[0].pos + sf::Vector2f{4.0f, 4.0f});
         customButton(box);
 
-        for (Textform& t: textforms) {
-            t.display();
+        int cnt = 0;
+        for (int i = 0; i < (int)textforms.size(); i++) {
+            if (highlight[structuremode][codesection][i + 1]) {
+                textforms[i].pos.y = 30.0f + 15.0f * cnt;
+                textforms[i].display();
+                ++cnt;
+            }
         }
     }
 };

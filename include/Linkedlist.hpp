@@ -50,13 +50,13 @@ struct Linkedlist {
         }
     }
 
-    void load(const Data& data, const Graph& f, Graph& g, std::vector<Graph>& graphs) {
+    void load(const Data& data, Graph& f, Graph& g, std::vector<Graph>& graphs) {
         preload(data, f, g);
         graphs.clear();
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 0);
         int m = f.gnodes.size(), n = g.gnodes.size();
         for (Gnode& t: g.gnodes) t.pos += {0, gnodesize * -1.5f};
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 0);
         
         for (int i = m - 1, j = n - 1; i >= 0 && j >= 0;) {
             if (i && dp[i][j] == dp[i - 1][j]) {
@@ -67,7 +67,7 @@ struct Linkedlist {
                 for (int k = 0; k + 1 < sz; k++) if (k != j + 1 && k != j) {
                     g.gedges.emplace_back(g.gnodes[k], g.gnodes[k + 1]);
                 }
-                graphs.emplace_back(); graphs.back().copy(g, 1);
+                graphs.emplace_back(); graphs.back().copy(g, 2);
                 i--; continue;
             }
             if (j && dp[i][j] == dp[i][j - 1]) {
@@ -77,11 +77,12 @@ struct Linkedlist {
                 for (int k = 0; k + 1 < sz; k++) {
                     g.gedges.emplace_back(g.gnodes[k], g.gnodes[k + 1]);
                 }
-                graphs.emplace_back(); graphs.back().copy(g, 2);
+                graphs.emplace_back(); graphs.back().copy(g, 1);
                 j--; continue;
             }
             i--; j--;
         }
+        graphs.emplace_back(); graphs.back().copy(f, 0);
 
         if (stepbystep) {
             reverse(graphs.begin(), graphs.end());

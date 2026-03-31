@@ -60,8 +60,7 @@ struct Animations {
 
     void load(const Graph& G, const Graph& H, float t) {
         animating = 1;
-        codesection = H.codesection;
-        if (codesection) std::cout << "wtfwtf" << std::endl;
+        codesection = G.codesection;
         load(G, H);
         start = clock();
         duration = t * CLOCKS_PER_SEC;
@@ -73,7 +72,6 @@ struct Animations {
         float r = 1.0f * (clock() - start) / duration;
         if (r > 1) {
             animating = 0;
-            codesection = 0;
             return;
         }
         r *= r * (3 - r * 2);

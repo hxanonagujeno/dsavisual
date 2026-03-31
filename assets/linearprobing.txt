@@ -23,3 +23,7 @@ Node* get(Node* h, int v) {
     }
     return h;
 }
+
+Node* find(int v) {
+
+}
