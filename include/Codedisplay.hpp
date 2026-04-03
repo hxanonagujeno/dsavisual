@@ -7,7 +7,7 @@
 struct Codedisplay {
     int prevstructuremode = 0;
     std::vector<Textform> textforms;
-    std::bitset<64> highlight[8][8];
+    std::bitset<128> highlight[8][8];
     
     Codedisplay() {
         textforms.emplace_back(sf::Vector2f{870.0f, 30.0f});
@@ -24,7 +24,6 @@ struct Codedisplay {
             if (x == 'k') {
                 k = tmp;
                 highlight[i][j][k] = 1;
-                std::cout << i << " " << j << " " << k << std::endl;
             }
         }
         for (int i = 0; i < 8; i++) {
@@ -93,7 +92,7 @@ struct Codedisplay {
         for (int i = 0; i < (int)textforms.size(); i++) {
             if (highlight[structuremode][codesection][i + 1]) {
                 textforms[i].pos.y = 30.0f + 15.0f * cnt;
-                textforms[i].color = (animating || showsteps? Wwhite2: Wsilver);
+                textforms[i].color = Wwhite2;
                 textforms[i].display();
                 ++cnt;
             }

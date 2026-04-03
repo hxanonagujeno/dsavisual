@@ -1,25 +1,88 @@
 struct Node {
-    int val;
-    Node* nxt;
-    Node* prv;
+    std::vector<int> keys;
+    std::vector<int> children;
+    int pIdx = -1;
 };
 
-void add(Node* p, int v) {
-    if (!p) return;
-    p->nxt = 
-        new Node{v, p->nxt, p};
-}
+struct TwoThreeFour {
+    std::vector<Node> nods;
+    int root = 0;
 
-void del(Node* p) {
-    if (!p) return;
-    p->prv->nxt = p->nxt;
-    p->nxt->prv = p->prv;
-    delete p;
-}
-
-Node* get(Node* h, int v) {
-    while (h && h->val != v) {
-        h = h->next;
+    TwoThreeFour() {
+        nods.emplace_back();
     }
-    return h;
+}
+
+void ensureParent(int idx) {
+    /*
+    */
+}
+
+int createSibling(int idx) {
+    /*
+    */
+}
+
+void linkToParent(int p, int v, int c) {
+    /*
+    */
+}
+
+void split(int idx) {
+    ensureParent(idx);
+    int upVal = nodes[idx].keys[2];
+    int pIdx = nodes[idx].pIdx;
+    int sibIdx = createSibling(idx);
+    linkToParent(pIdx, upVal, sibIdx);
+    if (nodes[pIdx].keys.size() > 3) {
+        split(pIdx);
+    }
+}
+
+void add(int nodeIdx, int val) {
+    Node& nod = nods[nodeIdx];
+    if (nod.children.empty()) {
+        nod.keys.push_back(val);
+        std::sort(nod.keys.begin(), nod.keys.end());
+        std::erase(
+            std::unique(nod.keys.begin(), nod.keys.end()), 
+            nod.keys.end()
+        );
+        if (nod.keys.size() > 3) {
+            split(nodeIdx);
+        }
+    } else {
+        int i = 0;
+        while (i < nod.keys.size() && val > nod.keys[i]) {
+            i++;
+        }
+        add(nod.children[i], val);
+    }
+}
+
+void del(int nodeIdx, int val) {
+    Node& nod = nods[nodeIdx];
+    for (auto& t: nod.keys) {
+        if (t == val) {
+            nod.keys.erase(t);
+            return;
+        }
+    }
+}
+
+int find(int nodeIdx, int val) {
+    Node& nod = nods[nodeIdx];
+    for (int k: nod.keys) {
+        if (k == val) {
+            return nodeIdx;
+        }
+    }
+    if (nod.children.empty()) {
+        return -1;
+    }
+    int i = 0;
+    while (i < nod.keys.size() && val > nod.keys[i]){
+        i++;
+    }
+    return find(nod.children[i], val);
 }

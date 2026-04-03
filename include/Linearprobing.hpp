@@ -26,13 +26,13 @@ struct Linearprobing {
 		int i = hash(s);
         for (int j = 0; j < n; j++) {
             g.gnodes[i].color = sf::Color::Yellow;
-            graphs.emplace_back(); graphs.back().copy(g);
+            graphs.emplace_back(); graphs.back().copy(g, 1);
             g.gnodes[i].color = defnodecol;
             if (vals[i].empty() || vals[i][0] == '#') break;
             i = (i + 1) % n;
         }
         g.gnodes[i].text = s;
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 1);
 		vals[i] = s;
         return i;
 	}
@@ -41,12 +41,30 @@ struct Linearprobing {
 		int i = hash(s);
 		for (int j = 0; j < n; j++) {
             g.gnodes[i].color = sf::Color::Yellow;
-            graphs.emplace_back(); graphs.back().copy(g);
+            graphs.emplace_back(); graphs.back().copy(g, 2);
             g.gnodes[i].color = defnodecol;
 			if (vals[i] == s) {
                 g.gnodes[i].text = "#";
-                graphs.emplace_back(); graphs.back().copy(g);
+                graphs.emplace_back(); graphs.back().copy(g, 2);
                 vals[i] = "#";
+                return i;
+            }
+			if (vals[i].empty()) break;
+			i = (i + 1) % n;
+		}
+        return -1;
+	}
+
+    int find(Graph& g, std::vector<Graph>& graphs, const std::string& s) {
+		int i = hash(s);
+		for (int j = 0; j < n; j++) {
+            g.gnodes[i].color = sf::Color::Yellow;
+            graphs.emplace_back(); graphs.back().copy(g, 3);
+            g.gnodes[i].color = defnodecol;
+			if (vals[i] == s) {
+                g.gnodes[i].color = sf::Color::Cyan;
+                graphs.emplace_back(); graphs.back().copy(g, 3);
+                g.gnodes[i].color = defnodecol;
                 return i;
             }
 			if (vals[i].empty()) break;
@@ -82,14 +100,14 @@ struct Linearprobing {
         if (resized) {
             vals.assign(n, "");
             recreate(g);
-            graphs.emplace_back(); graphs.back().copy(g);
+            graphs.emplace_back(); graphs.back().copy(g, 0);
             for (const Textform& t: data.textforms) {
                 if (!t.text.empty()) {
                     add(g, graphs, t.text);
                 }
             }
         } else {
-            graphs.emplace_back(); graphs.back().copy(g);
+            graphs.emplace_back(); graphs.back().copy(g, 0);
             cnv.clear();
             for (const std::string& t: vals) {
                 if (!t.empty() && t[0] != '#') cnv[t] -= 1;
@@ -106,6 +124,13 @@ struct Linearprobing {
                 for (int i = 0; i < x.second; i++) {
                     add(g, graphs, x.first);
                 }
+            }
+        }
+
+        if (data.lstfocus != -1) {
+            const std::string& x = data.textforms[data.lstfocus].text;
+            if (!x.empty()) {
+                find(g, graphs, x);
             }
         }
         

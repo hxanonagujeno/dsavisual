@@ -106,8 +106,10 @@ struct Linkedlist {
             g.gnodes[j].color = defnodecol;
             i--; j--;
         }
+        
+        reverse(graphs.begin(), graphs.end());
 
-        if (stepbystep) {
+        if (!stepbystep) {
             reverse(graphs.begin(), graphs.end());
         }
     }

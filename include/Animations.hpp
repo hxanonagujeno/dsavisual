@@ -60,7 +60,7 @@ struct Animations {
 
     void load(const Graph& G, const Graph& H, float t) {
         animating = 1;
-        codesection = G.codesection;
+        codesection = H.codesection;
         load(G, H);
         start = clock();
         duration = t * CLOCKS_PER_SEC;

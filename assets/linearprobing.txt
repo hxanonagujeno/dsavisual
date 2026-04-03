@@ -1,29 +1,57 @@
-struct Node {
-    int val;
-    Node* nxt;
-    Node* prv;
-};
-
-void add(Node* p, int v) {
-    if (!p) return;
-    p->nxt = 
-        new Node{v, p->nxt, p};
+struct LinearProbing {
+    int n;
+    std::vector<int> vals;
 }
 
-void del(Node* p) {
-    if (!p) return;
-    p->prv->nxt = p->nxt;
-    p->nxt->prv = p->prv;
-    delete p;
+void init(int size) {
+    n = size; 
+    vals.assign(n, -1); 
 }
 
-Node* get(Node* h, int v) {
-    while (h && h->val != v) {
-        h = h->next;
+int hash(int s) {
+    int val = 0;
+    while (s > 0) {
+        val += (s % 10 + 1) * 293;
+        val %= n;
     }
-    return h;
+    return val;
 }
 
-Node* find(int v) {
+int add(int s) {
+    int i = hash(s);
+    while (!vals[i].empty()) {
+        if (vals[i][0] == -1) {
+            break;
+        }
+        i = (i + 1) % n;
+    }
+    return vals[i] = s, i;
+}
 
+int del(int s) {
+    int i = hash(s);
+    for (int j = 0; j < n; j++) {
+        if (vals[i] == s) {
+            return vals[i] = -1, i;
+        }
+        if (vals[i].empty()) {
+            break;
+        }
+        i = (i + 1) % n;
+    }
+    return -1;
+}
+
+int search(const std::string& s) {
+    int i = hash(s);
+    for (int j = 0; j < n; j++) {
+        if (vals[i] == s) {
+            return i;
+        }
+        if (vals[i].empty()) {
+            break;
+        }
+        i = (i + 1) % n;
+    }
+    return -1;
 }

@@ -112,7 +112,7 @@ struct Twothreefour {
         g.gnodes[p].color = sf::Color::Yellow;
         g.gnodes[cur.par].color = sf::Color::Magenta;
         g.gnodes.back().color = sf::Color::Magenta;
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 4);
         g.gnodes[p].color = defnodecol;
         g.gnodes[cur.par].color = defnodecol;
         g.gnodes.back().color = defnodecol;
@@ -121,7 +121,7 @@ struct Twothreefour {
 
     int add(Graph& g, std::vector<Graph>& graphs, int p, int t) {
         g.gnodes[p].color = sf::Color::Yellow;
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 1);
         g.gnodes[p].color = defnodecol;
         Node& cur = nodes[p];
         int m = (int)cur.val.size();
@@ -149,37 +149,59 @@ struct Twothreefour {
             if (ok) break;
         }
     }
+
     void add(Graph& g, std::vector<Graph>& graphs, int t) {
         bool ok = 0;
         add_helper(g, ok, t);
         if (ok) {
-            graphs.emplace_back(); graphs.back().copy(g);
+            find(g, graphs, rut, t);
+            graphs.emplace_back(); graphs.back().copy(g, 1);
             ++cnt[t];
             recreate(g);
-            graphs.emplace_back(); graphs.back().copy(g);
+            graphs.emplace_back(); graphs.back().copy(g, 1);
             return;
         }
         ++cnt[t];
         add(g, graphs, rut, t);
         recreate(g);
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 1);
     }
 
     void del(Graph& g, std::vector<Graph>& graphs, int t) {
         for (int i = 0; i < (int)nodes.size(); i++) {
             bool ok = 0;
             for (int _t: nodes[i].val) if (_t == t) {
+                find(g, graphs, rut, t);
                 g.gnodes[i].color = sf::Color::Red;
                 ok = 1;
             }
             if (ok) break;
         }
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 2);
         --cnt[t];
         recreate(g);
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 2);
     }
 
+    int find(Graph& g, std::vector<Graph>& graphs, int p, int t) {
+        if (p == -1) return -1;
+        g.gnodes[p].color = sf::Color::Yellow;
+        graphs.emplace_back(); graphs.back().copy(g, 3);
+        g.gnodes[p].color = defnodecol;
+        Node& cur = nodes[p];
+        int m = (int)cur.val.size();
+        for (int i = 0; i < m; i++) {
+            if (cur.val[i] == t) return p;
+        }
+        if (cur.child.empty()) return -1;
+        for (int i = 0; i <= m; i++) {
+            if (t < (i == m ? inf : cur.val[i])) {
+                return find(g, graphs, cur.child[i], t);
+            }
+        }
+        return -1;
+    }
+    
     void recreate(Graph& g) {
         g.clear();
         int m = (int)nodes.size();
@@ -270,6 +292,10 @@ struct Twothreefour {
         }
         cnt = dnt;
         
+        if (graphs.empty()) {
+            graphs.emplace_back(); graphs.back().copy(g, 0);
+        }
+
         if (!stepbystep) { 
             reverse(graphs.begin(), graphs.end());
         }
