@@ -65,20 +65,8 @@ struct Codedisplay {
         prevstructuremode = structuremode;
     }
 
-    void tickhighlight() {
-        int n = (int)textforms.size();
-        for (int i = 0; i < n; i++) {
-            if (highlight[structuremode][codesection][i]) {
-                textforms[i].color = Wwhite2;
-            } else {
-                textforms[i].color = Wivory;
-            }
-        }
-    }
-
     void tick() {
         tickstructure();
-        tickhighlight();
     }
 
     std::ifstream file;
@@ -105,6 +93,7 @@ struct Codedisplay {
         for (int i = 0; i < (int)textforms.size(); i++) {
             if (highlight[structuremode][codesection][i + 1]) {
                 textforms[i].pos.y = 30.0f + 15.0f * cnt;
+                textforms[i].color = (animating || showsteps? Wwhite2: Wsilver);
                 textforms[i].display();
                 ++cnt;
             }

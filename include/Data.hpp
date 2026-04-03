@@ -12,6 +12,7 @@ struct Data {
     bool bsp;
     int arrow;
     int lim;
+    int lstfocus, curfocus, idfocus;
 
     Data() {
         textforms.emplace_back(sf::Vector2f{30.0f, 240.0f});
@@ -21,6 +22,9 @@ struct Data {
         bsp = 0;
         arrow = 0;
         lim = (600 - 240) / 15 - 1;
+        lstfocus = -1;
+        curfocus = -1;
+        idfocus = -1;
     }
 
     void checktextforms() {
@@ -75,6 +79,8 @@ struct Data {
                 p = i;
             }
         }
+        lstfocus = curfocus;
+        curfocus = p;
         if (p == -1) {
             add = 0;
             del = 0;
@@ -138,8 +144,16 @@ struct Data {
         box.setSize(textforms.back().pos + textforms.back().sz - textforms[0].pos + sf::Vector2f{4.0f, 4.0f});
         customButton(box);
 
-        for (Textform& t: textforms) {
-            t.display();
+        for (int i = 0; i < (int)textforms.size(); i++) {
+            if (animating || showsteps) {
+                if (i == idfocus || i == lstfocus) {
+                    textforms[i].color = Wgray;
+                    idfocus = i;
+                }
+            } else {
+                idfocus = -1;
+            }
+            textforms[i].display();
         }
     }
 

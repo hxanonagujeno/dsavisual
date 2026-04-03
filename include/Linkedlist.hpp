@@ -58,31 +58,54 @@ struct Linkedlist {
         for (Gnode& t: g.gnodes) t.pos += {0, gnodesize * -1.5f};
         graphs.emplace_back(); graphs.back().copy(g, 0);
         
+        if (data.lstfocus != -1) {
+            int p = data.lstfocus;
+            g.gnodes[p].color = sf::Color::Cyan;
+            graphs.emplace_back(); graphs.back().copy(g, 3);
+            g.gnodes[p].color = defnodecol;
+            for (int i = p; i >= 0; i--) {
+                g.gnodes[i].color = sf::Color::Yellow;
+                graphs.emplace_back(); graphs.back().copy(g, 3);
+                g.gnodes[i].color = defnodecol;
+            }
+        }
+
         for (int i = m - 1, j = n - 1; i >= 0 && j >= 0;) {
             if (i && dp[i][j] == dp[i - 1][j]) {
+                g.gnodes[j].color = sf::Color::Yellow;
+                graphs.emplace_back(); graphs.back().copy(g, 2);
+                g.gnodes[j].color = defnodecol;
                 g.gnodes.emplace(g.gnodes.begin() + j + 1, f.gnodes[i]);
                 g.gnodes[j + 1].pos += {0, gnodesize * 1.5f};
                 g.gedges.clear();
                 int sz = (int)g.gnodes.size();
-                for (int k = 0; k + 1 < sz; k++) if (k != j + 1 && k != j) {
+                for (int k = 0; k + 1 < sz; k++) {
                     g.gedges.emplace_back(g.gnodes[k], g.gnodes[k + 1]);
                 }
-                graphs.emplace_back(); graphs.back().copy(g, 2);
                 i--; continue;
             }
             if (j && dp[i][j] == dp[i][j - 1]) {
+                g.gnodes[j].color = sf::Color::Yellow;
+                graphs.emplace_back(); graphs.back().copy(g, 1);
+                g.gnodes[j].color = defnodecol;
+                g.gnodes[j - 1].color = sf::Color::Yellow;
+                g.gnodes[j].color = sf::Color::Green;
+                graphs.emplace_back(); graphs.back().copy(g, 1);
+                g.gnodes[j - 1].color = defnodecol;
+                g.gnodes[j].color = defnodecol;
                 g.gnodes.erase(g.gnodes.begin() + j);
                 g.gedges.clear();
                 int sz = (int)g.gnodes.size();
                 for (int k = 0; k + 1 < sz; k++) {
                     g.gedges.emplace_back(g.gnodes[k], g.gnodes[k + 1]);
                 }
-                graphs.emplace_back(); graphs.back().copy(g, 1);
                 j--; continue;
             }
+            g.gnodes[j].color = sf::Color::Yellow;
+            graphs.emplace_back(); graphs.back().copy(g, 0);
+            g.gnodes[j].color = defnodecol;
             i--; j--;
         }
-        graphs.emplace_back(); graphs.back().copy(f, 0);
 
         if (stepbystep) {
             reverse(graphs.begin(), graphs.end());
