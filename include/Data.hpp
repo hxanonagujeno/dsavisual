@@ -15,13 +15,13 @@ struct Data {
     int lstfocus, curfocus, idfocus;
 
     Data() {
-        textforms.emplace_back(sf::Vector2f{30.0f, 240.0f});
+        textforms.emplace_back(sf::Vector2f{22.0f, 265.0f});
         focus = 0;
         add = 0;
         del = 0;
         bsp = 0;
         arrow = 0;
-        lim = (600 - 240) / 15 - 1;
+        lim = (600 - 263) / 15 - 1;
         lstfocus = -1;
         curfocus = -1;
         idfocus = -1;
@@ -96,7 +96,7 @@ struct Data {
                 add = 0;
                 return;
             }
-            textforms.emplace(textforms.begin() + p + 1, sf::Vector2f{30.0f, 240.0f + 15.0f * p});
+            textforms.emplace(textforms.begin() + p + 1, sf::Vector2f{22.0f, 265.0f + 15.0f * p});
             for (int i = p + 1; i <= n; i++) {
                 textforms[i].pos += {0.0f, 15.0f};
             }
@@ -164,7 +164,7 @@ struct Data {
         int cnt = 0;
         textforms.clear();
         while (cnt < 18 && std::getline(file, line)) {
-            textforms.emplace_back(sf::Vector2f{30.0f, 240.0f + 15.0f * cnt}, line);
+            textforms.emplace_back(sf::Vector2f{22.0f, 265.0f + 15.0f * cnt}, line);
             cnt++;
         }
         file.close();

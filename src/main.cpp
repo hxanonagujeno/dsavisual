@@ -8,7 +8,7 @@
 #include <Structures.hpp>
 #include <Codedisplay.hpp>
 
-sf::RenderWindow window(sf::VideoMode(1080, 600), "dsavisual", sf::Style::Titlebar | sf::Style::Close);
+sf::RenderWindow window(sf::VideoMode(1080, 600), "DSAvisual", sf::Style::Titlebar | sf::Style::Close);
 sf::Event event;
 sf::Font font;
 
@@ -22,6 +22,7 @@ void init() {
     srand(time(0));
     font.loadFromFile("assets/segoeui.ttf");
     font.setSmooth(0);
+    background.init();
     data.import("assets/example.txt");
     structures.load(data);
     structuremode = 2;

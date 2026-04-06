@@ -10,7 +10,7 @@ struct Codedisplay {
     std::bitset<128> highlight[8][8];
     
     Codedisplay() {
-        textforms.emplace_back(sf::Vector2f{870.0f, 30.0f});
+        textforms.emplace_back(sf::Vector2f{862.0f, 20.0f});
         file.open("assets/highlight.txt");
         int i = 0, j = 0, k = 0;
         char x; int tmp;
@@ -58,7 +58,7 @@ struct Codedisplay {
         }
         
         if (textforms.empty()) {
-            textforms.emplace_back(sf::Vector2f{870.0f, 30.0f});
+            textforms.emplace_back(sf::Vector2f{862.0f, 20.0f});
         }
 
         prevstructuremode = structuremode;
@@ -75,7 +75,7 @@ struct Codedisplay {
         int cnt = 0;
         textforms.clear();
         while (std::getline(file, line)) {
-            textforms.emplace_back(sf::Vector2f{870.0f, 30.0f + 15.0f * cnt}, line);
+            textforms.emplace_back(sf::Vector2f{862.0f, 20.0f + 15.0f * cnt}, line);
             ++cnt;
         }
         file.close();
@@ -84,15 +84,15 @@ struct Codedisplay {
     sf::RectangleShape box;
     void display() {
         box.setPosition(textforms[0].pos - sf::Vector2f{2.0f, 2.0f});
-        sf::Vector2f tmp = sf::Vector2f{870.0f, 30.0f + 15.0f * (highlight[structuremode][codesection].count() - 1)};
+        sf::Vector2f tmp = sf::Vector2f{862.0f, 20.0f + 15.0f * (highlight[structuremode][codesection].count() - 1)};
         box.setSize(tmp + textforms[0].sz - textforms[0].pos + sf::Vector2f{4.0f, 4.0f});
         customButton(box);
 
         int cnt = 0;
         for (int i = 0; i < (int)textforms.size(); i++) {
             if (highlight[structuremode][codesection][i + 1]) {
-                textforms[i].pos.y = 30.0f + 15.0f * cnt;
-                textforms[i].color = Wwhite2;
+                textforms[i].pos.y = 20.0f + 15.0f * cnt;
+                textforms[i].color = sf::Color::White;
                 textforms[i].display();
                 ++cnt;
             }

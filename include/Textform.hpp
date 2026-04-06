@@ -14,7 +14,7 @@ struct Textform {
 
     Textform(const sf::Vector2f& _pos = zero2f, const std::string& _text = "") {
         pos = _pos;
-        sz = {180, 15};
+        sz = {196, 15};
         focus = 0;
         lim = 18;
         text = _text;
@@ -64,7 +64,7 @@ struct Textform {
         if (focus) {
             color = Wivory;
         } else {
-            color = Wwhite2;
+            color = sf::Color::White;
         }
     }
 
@@ -78,7 +78,7 @@ struct Textform {
             buf = 0;
             return;
         }
-        if ((int)text.size() == lim) {
+        if ((int)text.size() >= 24 || (chars.setString(text + buf), chars.getLocalBounds().getSize().x >= sz.x)) {
             buf = 0;
             return;
         }

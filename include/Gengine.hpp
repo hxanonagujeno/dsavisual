@@ -17,6 +17,7 @@ struct Gengine {
             } else {
                 if (isdigit(c)) {
                     if (tmp == -1) tmp = 0;
+                    if (tmp >= 1e8) return {};
                     tmp = tmp * 10 + c - '0';
                 }
             }

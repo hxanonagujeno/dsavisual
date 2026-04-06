@@ -45,7 +45,7 @@ void customButton(sf::RectangleShape shape){
     sf::Vector2f A = shape.getPosition(), B = A + shape.getSize();
     sf::Color col = shape.getFillColor();
     roundedRectangle(A + sf::Vector2f{-1, -1}, B + sf::Vector2f{1, 1}, Wonyx, 6);
-    roundedRectangle(A, B, Wwhite2, 5);
+    roundedRectangle(A, B, col + sf::Color{15, 15, 15}, 5);
     roundedRectangle(A + sf::Vector2f{1, 1}, B + sf::Vector2f{-1, -1}, col, 4);
     roundedRectangleBottom(A + sf::Vector2f{1, 1}, B + sf::Vector2f{-1, -1}, {0, 0, 0, 20}, 4);
 }
