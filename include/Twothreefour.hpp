@@ -113,6 +113,9 @@ struct Twothreefour {
         g.gnodes[cur.par].color = sf::Color::Magenta;
         g.gnodes.back().color = sf::Color::Magenta;
         graphs.emplace_back(); graphs.back().copy(g, 4);
+        g.gnodes[cur.par].color = defnodecol;
+        g.gnodes.back().color = defnodecol;
+        graphs.emplace_back(); graphs.back().copy(g, 4);
         g.gnodes[p].color = defnodecol;
         g.gnodes[cur.par].color = defnodecol;
         g.gnodes.back().color = defnodecol;

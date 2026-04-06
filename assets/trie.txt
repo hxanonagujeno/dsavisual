@@ -1,25 +1,49 @@
 struct Node {
-    int val;
-    Node* nxt;
-    Node* prv;
+    int x[128], c = 0;
+    Node() {
+        for (int i = 0; i < 128; ++i) {
+            x[i] = -1;
+        }
+    }
 };
 
-void add(Node* p, int v) {
-    if (!p) return;
-    p->nxt = 
-        new Node{v, p->nxt, p};
-}
-
-void del(Node* p) {
-    if (!p) return;
-    p->prv->nxt = p->nxt;
-    p->nxt->prv = p->prv;
-    delete p;
-}
-
-Node* get(Node* h, int v) {
-    while (h && h->val != v) {
-        h = h->next;
+struct Trie {
+    vector<Node> t;
+    Trie() { 
+        t.emplace_back(); 
     }
-    return h;
+}
+
+int add(const string& s) {
+    int p = 0;
+    for (char c: s) {
+        int& n = t[p].x[(int)c];
+        if (n == -1) {
+            n = t.size();
+            t.emplace_back();
+        }
+        p = n;
+        t[p].c++;
+    }
+    return p;
+}
+
+void del(const string& s) {
+    if (find(s) == -1) return;
+    int p = 0;
+    for (char c : s) {
+        p = t[p].x[(int)c];
+        t[p].c--;
+    }
+}
+
+int find(const string& s) {
+    int p = 0;
+    for (char c : s) {
+        p = t[p].x[(int)c];
+        if (p < 0 || !t[p].c) {
+            return -1;
+        }
+    }
+    return p;
 }

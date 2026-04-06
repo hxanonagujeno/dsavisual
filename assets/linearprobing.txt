@@ -1,6 +1,6 @@
 struct LinearProbing {
     int n;
-    std::vector<int> vals;
+    vector<int> vals;
 }
 
 void init(int size) {
@@ -42,7 +42,7 @@ int del(int s) {
     return -1;
 }
 
-int search(const std::string& s) {
+int search(const string& s) {
     int i = hash(s);
     for (int j = 0; j < n; j++) {
         if (vals[i] == s) {

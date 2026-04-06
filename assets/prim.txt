@@ -1,25 +1,53 @@
-struct Node {
-    int val;
-    Node* nxt;
-    Node* prv;
+struct Edge { 
+    int v, w; 
 };
 
-void add(Node* p, int v) {
-    if (!p) return;
-    p->nxt = 
-        new Node{v, p->nxt, p};
+struct Prim {
+    vector<int> d, p;
+    vector<Edge> edj;
+    vector<vector<Edge>> adj;
+    priority_queue<
+        array<int, 3>, 
+        vector<array<int, 3>>, 
+        greater<array<int, 3>>
+    > q;
 }
 
-void del(Node* p) {
-    if (!p) return;
-    p->prv->nxt = p->nxt;
-    p->nxt->prv = p->prv;
-    delete p;
-}
-
-Node* get(Node* h, int v) {
-    while (h && h->val != v) {
-        h = h->next;
+void prim(int rut) {
+    int n = adj.size();
+    d.assign(n, 2e9);
+    p.assign(n, -1);
+    while (!q.empty()) {
+        q.pop();
     }
-    return h;
+    d[rut] = 0;
+    q.push({0, rut, rut});
+    edj.clear();
+
+    while (!q.empty()) {
+        array<int, 3> t = q.top();
+        q.pop();
+        int u = t[1], pr = t[2];
+        if (!checkedj(u, pr)) {
+            continue;
+        }
+        checkadj(u);
+    }
+}
+
+void checkedj(int u, int pr) {
+    if (p[u] != -1) continue;
+    p[u] = pr;
+    if (u != pr) {}
+        edj.push_back({pr, u});
+    }
+}
+
+void checkadj(int u) {
+    for (auto& nb: adj[u]) {
+        if (p[nb.v] != -1) continue;
+        if (nb.w < d[nb.v]) continue;
+        d[nb.v] = nb.w;
+        q.push({nb.w, nb.v, u});
+    }
 }

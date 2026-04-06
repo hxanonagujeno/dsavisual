@@ -28,16 +28,16 @@ struct Gengine {
     }
 
     std::set<std::pair<std::pair<int, int>, int>> edges;
-    std::unordered_map<int, sf::Vector2f> pos;
-    std::unordered_map<int, std::set<std::pair<int, int>>> con;
-    std::unordered_map<int, int> cnvid;
-    std::unordered_map<int, int> tmp;
+    std::map<int, sf::Vector2f> pos;
+    std::map<int, std::set<std::pair<int, int>>> con;
+    std::map<int, int> cnvid;
+    std::map<int, int> tmp;
 
     Gengine() {
-        clear();
+        Gclear();
     }
 
-    void clear() {
+    void Gclear() {
         edges.clear();
         pos.clear();
         con.clear();
@@ -54,10 +54,10 @@ struct Gengine {
     sf::Vector2f getmov2(sf::Vector2f a, sf::Vector2f b) {
         a -= b;
         float x = sqrt(sqrlen(a));
-        return a * ((x - 100) / x) * -0.05f;
+        return a * ((x - 100) / x) * -0.03f;
     }
 
-    sf::Vector2f getmov(int t, float k = 3.6e4) {
+    sf::Vector2f getmov(int t, float k = 1.2e4) {
         sf::Vector2f cur = pos[t];
         sf::Vector2f total(0, 0);
         for (const auto& z: pos) {
@@ -76,20 +76,28 @@ struct Gengine {
         }
         total = k * total;
         for (const auto& z: con[t]) {
-            if (z.first != t) total += getmov2(cur, pos[z.first]);
+            if (z.first != t) {
+                total += getmov2(cur, pos[z.first]) * std::max(1.0f, k * 0.002f);
+            }
         }
         float len = sqrt(sqrlen(total));
         if (len > 50) total = total * (50.0f / len);
         return total;
     }
 
-    void recreate(Graph& g) {
-        for (int reps = 720; reps >= 1; reps--) {
-            for (auto& z: pos) {
-                z.second += getmov(z.first, (reps + 36) * 50.0f);
+    void recreate(Graph& g, bool regraph = 0) {
+        if (regraph) {
+            for (int reps = 1000; reps >= 1; reps--) {
+                for (auto& z: pos) {
+                    z.second += getmov(z.first, (reps + 36) * 50.0f);
+                    mxz(z.second.x, 240.0f + gnodesize);
+                    mnz(z.second.x, 840.0f - gnodesize);
+                    mxz(z.second.y, 0.000f + gnodesize);
+                    mnz(z.second.y, 600.0f - gnodesize);
+                }
             }
         }
-
+        
         int tmpn = -1;
         tmp.clear();
         g.gnodes.clear();

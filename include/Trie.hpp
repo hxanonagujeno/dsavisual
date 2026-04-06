@@ -57,18 +57,17 @@ struct Trie {
             poses.emplace_back(p);
             if (rev[p] != -1) {
                 g.gnodes[rev[p]].color = sf::Color::Yellow;
-                graphs.emplace_back(); graphs.back().copy(g);
-                g.gnodes[rev[p]].color = defnodecol;
+                graphs.emplace_back(); graphs.back().copy(g, 1);
             }
         }
         for (int i: poses) if (rev[i] != -1) {
             g.gnodes[rev[i]].color = sf::Color::Green;
         }
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 1);
         for (int i: poses) if (rev[i] != -1) {
             g.gnodes[rev[i]].color = defnodecol;
         }
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 1);
         if (ogsz == (int)g.gnodes.size()) {
             for (int i = (int)graphs.size() - ogani; i >= 1; i--) {
                 graphs.pop_back();
@@ -90,24 +89,47 @@ struct Trie {
             poses.emplace_back(p);
             if (rev[p] != -1) {
                 g.gnodes[rev[p]].color = sf::Color::Yellow;
-                graphs.emplace_back(); graphs.back().copy(g);
-                g.gnodes[rev[p]].color = defnodecol;
+                graphs.emplace_back(); graphs.back().copy(g, 2);
             }
         }
         for (int i: poses) if (rev[i] != -1) {
             g.gnodes[rev[i]].color = sf::Color::Red;
         }
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 2);
         recreate(g);
         for (int i: poses) if (rev[i] != -1) {
             g.gnodes[rev[i]].color = defnodecol;
         }
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 2);
         if (ogsz == (int)g.gnodes.size()) {
             for (int i = (int)graphs.size() - ogani; i >= 1; i--) {
                 graphs.pop_back();
             }
         }
+        return p;
+    }
+
+    int find(Graph& g, std::vector<Graph>& graphs, const std::string& s) {
+        int p = 0;
+        poses.clear();
+        for (char c: s) {
+            if (nodes[p].nxt[(int)c] == -1) return -1;
+            p = nodes[p].nxt[(int)c];
+            if (!nodes[p].cnt) return -1;
+            poses.emplace_back(p);
+            if (rev[p] != -1) {
+                g.gnodes[rev[p]].color = sf::Color::Yellow;
+                graphs.emplace_back(); graphs.back().copy(g, 3);
+            }
+        }
+        for (int i: poses) if (rev[i] != -1) {
+            g.gnodes[rev[i]].color = sf::Color::Cyan;
+        }
+        graphs.emplace_back(); graphs.back().copy(g, 3);
+        for (int i: poses) if (rev[i] != -1) {
+            g.gnodes[rev[i]].color = defnodecol;
+        }
+        graphs.emplace_back(); graphs.back().copy(g, 3);
         return p;
     }
 
@@ -206,6 +228,13 @@ struct Trie {
             }
         }
         texts = dexts;
+
+        if (data.lstfocus != -1) {
+            const std::string& x = data.textforms[data.lstfocus].text;
+            if (!x.empty()) {
+                find(g, graphs, x);
+            }
+        }
 
         if (!stepbystep) { 
             reverse(graphs.begin(), graphs.end());

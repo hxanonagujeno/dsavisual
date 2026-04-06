@@ -10,6 +10,13 @@ struct Prim: Gengine {
     std::vector<int> par;
     std::set<std::pair<int, int>> mstedges;
 
+    void clear() {
+        Gclear();
+        dis.clear();
+        par.clear();
+        mstedges.clear();
+    }
+
     void reedge(Graph& g) {
         for (Gedge& t: g.gedges) {
             if (!t.a || !t.b) continue;
@@ -19,10 +26,14 @@ struct Prim: Gengine {
         }
     }
 
-    void prm(Graph& g, std::vector<Graph>& graphs) {
+    void prm(Graph& g, std::vector<Graph>& graphs, int _rut = -1) {
         int rut = INT_MAX;
-        for (const auto& x: pos) {
-            mnz(rut, x.first);
+        if (_rut == -1) {
+            for (const auto& x: pos) {
+                mnz(rut, x.first);
+            }
+        } else {
+            rut = _rut;
         }
 
         int n = (int)pos.size();
@@ -43,9 +54,9 @@ struct Prim: Gengine {
             mstedges.insert({std::min(U, tmp[p]), std::max(U, tmp[p])});
             reedge(g);
             g.gnodes[U].color = sf::Color::Yellow;
-            graphs.emplace_back(); graphs.back().copy(g);
+            graphs.emplace_back(); graphs.back().copy(g, 2);
             g.gnodes[U].color = sf::Color::Green;
-            graphs.emplace_back(); graphs.back().copy(g);
+            graphs.emplace_back(); graphs.back().copy(g, 2);
             for (const std::pair<int, int>& t: con[u]) {
                 int v = t.first, w = t.second, V = tmp[v];
                 if (v == par[U] || par[V] != -1) continue;
@@ -53,7 +64,7 @@ struct Prim: Gengine {
                 mnz(dis[V], w);
                 col.insert({dis[V], v});
                 g.gnodes[V].color = sf::Color::Green;
-                graphs.emplace_back(); graphs.back().copy(g);
+                graphs.emplace_back(); graphs.back().copy(g, 3);
                 q.push({w, v, u});
                 float cur = 0.9f;
                 for (const std::pair<int, int>& t: col) {
@@ -61,10 +72,10 @@ struct Prim: Gengine {
                     float r = 1.0f / (cur *= 1.75f);
                     g.gnodes[tmp[t.second]].color = r * sf::Color::Yellow + (1.0f - r) * slate;
                 }
-                graphs.emplace_back(); graphs.back().copy(g);
+                graphs.emplace_back(); graphs.back().copy(g, 3);
             }
             g.gnodes[U].color = sf::Color::Yellow;
-            graphs.emplace_back(); graphs.back().copy(g);
+            graphs.emplace_back(); graphs.back().copy(g, 2);
         }
     }
 
@@ -120,15 +131,22 @@ struct Prim: Gengine {
         }
         
         mstedges.clear(); 
-        recreate(g); recreate(g); recreate(g); 
+        recreate(g, 1);
         reedge(g); 
-        graphs.emplace_back(); graphs.back().copy(g);
-        prm(g, graphs);
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 0);
+        int rut = -1;
+        if (data.lstfocus != -1) {
+            std::vector<int> tmp = parse(data.textforms[data.lstfocus].text);
+            if (!tmp.empty()) {
+                rut = tmp[0];
+            }
+        }
+        prm(g, graphs, rut);
+        graphs.emplace_back(); graphs.back().copy(g, 0);
         mstedges.clear(); 
         recreate(g); 
         reedge(g); 
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 0);
         if (!stepbystep) { 
             reverse(graphs.begin(), graphs.end());
         }

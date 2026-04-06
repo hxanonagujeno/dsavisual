@@ -10,6 +10,13 @@ struct Dijkstra: Gengine {
     std::vector<int> par;
     std::set<std::pair<int, int>> djkedges;
 
+    void clear() {
+        Gclear();
+        dis.clear();
+        par.clear();
+        djkedges.clear();
+    }
+
     void reedge(Graph& g) {
         for (Gedge& t: g.gedges) {
             if (!t.a || !t.b) continue;
@@ -26,7 +33,7 @@ struct Dijkstra: Gengine {
         }
 
         g.gnodes[tmp[rut]].color = sf::Color::Yellow;
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 1);
 
         int n = (int)pos.size();
         dis.assign(n, INT_MAX);
@@ -41,13 +48,13 @@ struct Dijkstra: Gengine {
             int ographssize = (int)graphs.size();
             bool ok = 0;
             g.gnodes[U].color = sf::Color::Green;
-            graphs.emplace_back(); graphs.back().copy(g);
+            graphs.emplace_back(); graphs.back().copy(g, 2);
             for (const std::pair<int, int>& t: con[u]) {
                 int v = t.first, w = t.second, V = tmp[v];
                 if (V == par[U]) continue;
                 sf::Color ocolor = g.gnodes[V].color;
                 g.gnodes[V].color = sf::Color::Green;
-                graphs.emplace_back(); graphs.back().copy(g);
+                graphs.emplace_back(); graphs.back().copy(g, 2);
                 if (mnz(dis[V], D + w)) {
                     ok = 1;
                     djkedges.erase({std::min(par[V], V), std::max(par[V], V)});
@@ -55,21 +62,51 @@ struct Dijkstra: Gengine {
                     par[V] = U;
                     djkedges.insert({std::min(par[V], V), std::max(par[V], V)});
                     reedge(g);
-                    graphs.emplace_back(); graphs.back().copy(g);
+                    graphs.emplace_back(); graphs.back().copy(g, 2);
                     g.gnodes[V].color = sf::Color::Yellow;
                 } else {
                     g.gnodes[V].color = ocolor;
-                    graphs.emplace_back(); graphs.back().copy(g);
+                    graphs.emplace_back(); graphs.back().copy(g, 2);
                 }
             }
             g.gnodes[U].color = sf::Color::Yellow;
-            graphs.emplace_back(); graphs.back().copy(g);
+            graphs.emplace_back(); graphs.back().copy(g, 2);
             if (!ok) {
                 while ((int)graphs.size() > ographssize) {
                     graphs.pop_back();
                 }
             }
         }
+    }
+
+    void find(Graph& g, std::vector<Graph>& graphs, int stt) {
+        if (!tmp[stt]) return;
+        std::vector<int> pth;
+        for (int curr = tmp[stt]; 1; curr = par[curr]) {
+            pth.push_back(curr);
+            if (par[curr] == -1) {
+                break;
+            }
+            if ((int)pth.size() > 100) {
+                return;
+            }
+        }
+        std::reverse(pth.begin(), pth.end());
+
+        for (int t: pth) {
+            g.gnodes[t].color = sf::Color::Cyan;
+            for (Gedge& t: g.gedges) {
+                if (t.a->color == sf::Color::Cyan && t.b->color == sf::Color::Cyan) {
+                    t.color = sf::Color::Blue;
+                }
+            }
+            g.gnodes[t].color = sf::Color::Yellow;
+            graphs.emplace_back(); graphs.back().copy(g, 3);
+            g.gnodes[t].color = sf::Color::Cyan;
+            graphs.emplace_back(); graphs.back().copy(g, 3);
+        }
+
+        graphs.emplace_back(); graphs.back().copy(g, 3);
     }
 
     void load(const Data& data, const Graph& f, Graph& g, std::vector<Graph>& graphs) {
@@ -112,6 +149,7 @@ struct Dijkstra: Gengine {
                 pos.erase(i);
                 con.erase(i);
                 cnvid.erase(i);
+                tmp.erase(i);
             }
         }
         for (auto &u: con) {
@@ -124,15 +162,21 @@ struct Dijkstra: Gengine {
         }
         
         djkedges.clear(); 
-        recreate(g); recreate(g); recreate(g); 
+        recreate(g, 1);
         reedge(g); 
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 0);
         djk(g, graphs);
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 0);
+        if (data.lstfocus != -1) {
+            std::vector<int> tmp = parse(data.textforms[data.lstfocus].text);
+            if (!tmp.empty()) {
+                find(g, graphs, tmp[0]);
+            }
+        }
         djkedges.clear(); 
         recreate(g); 
         reedge(g); 
-        graphs.emplace_back(); graphs.back().copy(g);
+        graphs.emplace_back(); graphs.back().copy(g, 0);
         if (!stepbystep) { 
             reverse(graphs.begin(), graphs.end());
         }

@@ -1,11 +1,11 @@
 struct Node {
-    std::vector<int> keys;
-    std::vector<int> children;
+    vector<int> keys;
+    vector<int> children;
     int pIdx = -1;
 };
 
 struct TwoThreeFour {
-    std::vector<Node> nods;
+    vector<Node> nods;
     int root = 0;
 
     TwoThreeFour() {
@@ -13,27 +13,27 @@ struct TwoThreeFour {
     }
 }
 
-void ensureParent(int idx) {
+void checkpar(int idx) {
     /*
     */
 }
 
-int createSibling(int idx) {
+int newbro(int idx) {
     /*
     */
 }
 
-void linkToParent(int p, int v, int c) {
+void linkpar(int p, int v, int c) {
     /*
     */
 }
 
 void split(int idx) {
-    ensureParent(idx);
+    checkpar(idx);
     int upVal = nodes[idx].keys[2];
     int pIdx = nodes[idx].pIdx;
-    int sibIdx = createSibling(idx);
-    linkToParent(pIdx, upVal, sibIdx);
+    int sibIdx = newbro(idx);
+    linkpar(pIdx, upVal, sibIdx);
     if (nodes[pIdx].keys.size() > 3) {
         split(pIdx);
     }
@@ -43,9 +43,15 @@ void add(int nodeIdx, int val) {
     Node& nod = nods[nodeIdx];
     if (nod.children.empty()) {
         nod.keys.push_back(val);
-        std::sort(nod.keys.begin(), nod.keys.end());
-        std::erase(
-            std::unique(nod.keys.begin(), nod.keys.end()), 
+        sort(
+            nod.keys.begin(), 
+            nod.keys.end()
+        );
+        erase(
+            unique(
+                nod.keys.begin(), 
+                nod.keys.end()
+            ), 
             nod.keys.end()
         );
         if (nod.keys.size() > 3) {
@@ -53,7 +59,10 @@ void add(int nodeIdx, int val) {
         }
     } else {
         int i = 0;
-        while (i < nod.keys.size() && val > nod.keys[i]) {
+        while (
+            i < nod.keys.size() && 
+            val > nod.keys[i]
+        ) {
             i++;
         }
         add(nod.children[i], val);
@@ -81,7 +90,10 @@ int find(int nodeIdx, int val) {
         return -1;
     }
     int i = 0;
-    while (i < nod.keys.size() && val > nod.keys[i]){
+    while (
+        i < nod.keys.size() && 
+        val > nod.keys[i]
+    ) {
         i++;
     }
     return find(nod.children[i], val);

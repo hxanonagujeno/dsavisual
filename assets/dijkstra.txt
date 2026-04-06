@@ -1,25 +1,58 @@
-struct Node {
-    int val;
-    Node* nxt;
-    Node* prv;
+struct Edge {
+    int v, w;
 };
 
-void add(Node* p, int v) {
-    if (!p) return;
-    p->nxt = 
-        new Node{v, p->nxt, p};
+struct Dijkstra {
+    vector<int> dis;
+    vector<int> par;
+    vector<vector<Edge>> adj;
+    priority_queue<
+        pair<int, int>,
+        vector<pair<int, int>>,
+        greater<pair<int, int>>
+    > q;
 }
 
-void del(Node* p) {
-    if (!p) return;
-    p->prv->nxt = p->nxt;
-    p->nxt->prv = p->prv;
-    delete p;
-}
-
-Node* get(Node* h, int v) {
-    while (h && h->val != v) {
-        h = h->next;
+void run(int stt) {
+    int total = adj.size();
+    dis.assign(total, 2e9);
+    par.assign(total, -1);
+    while (!q.empty()) {
+        q.pop();
     }
-    return h;
+    dis[stt] = 0;
+    par[stt] = stt;
+    q.emplace(0, stt);
+
+    while (!q.empty()) {
+        int d = q.top().first;
+        int u = q.top().second;
+        q.pop();
+        if (d > dis[u]) {
+            continue;
+        }
+        checkadj();
+    }
+}
+
+void checkadj(int u, int d) {
+    for (auto& t: adj[u]) {
+        if (d + t.w < dis[t.v]) {
+            dis[t.v] = d + t.w;
+            par[t.v] = u;
+            q.emplace(d + t.w, t.v);
+        }
+    }
+}
+
+vector<int> find(int target) {
+    vector<int> pth;
+    int u = target;
+    if (u == -1) return pth;
+    while (1) {
+        pth.push_back(u);
+        if (u == par[u]) break;
+        u = par[u];
+    }
+    return pth;
 }
