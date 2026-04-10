@@ -30,6 +30,10 @@ const int inf = 2e9;
 const float pi = 3.14159265358793f;
 const float e = 2.718281828459045f;
 
+std::vector<char> chrdig;
+std::vector<char> chrabc;
+std::vector<char> chrtpb;
+
 const sf::Color defnodecol = Wwhite;
 
 const sf::Vector2f origin = {0, 0};
@@ -42,14 +46,23 @@ template<class T> bool mxz(T& x, const T& y) {
     return (x < y? (x = y, 1): 0);
 }
 
+int ranilog = 0;
+
 int rani() {
-	int s = 0;
+	int s = ranilog;
 	for (int i = 0; i < 3; i++) s ^= rand() << (i * 14);
+    ranilog = (s ^ ranilog) + ranilog;
 	return s;
 }
 
 int rani(int l, int r) {
     return abs(rani()) % (r - l + 1) + l;
+}
+
+int ranlg(int l, int r) {
+    int L = 10000 * logl(l) + 1;
+    int R = 10000 * logl(r);
+    return round(powl((double)e, rani(L, R) * 0.0001L));
 }
 
 int sqr(int x) {
@@ -123,4 +136,27 @@ void reglobe() {
     }
     memset(buttonevent, 0, sizeof(buttonevent));
     memset(keyboardvis, 0, sizeof(keyboardvis));
+}
+
+std::vector<int> parse(const std::string& s) {
+    std::vector<int> res;
+    int tmp = -1;
+    for (char c: s) {
+        if (isspace(c)) {
+            if (tmp != -1) {
+                res.emplace_back(tmp);
+                tmp = -1;
+            }
+        } else {
+            if (isdigit(c)) {
+                if (tmp == -1) tmp = 0;
+                if (tmp >= 1e8) return {};
+                tmp = tmp * 10 + c - '0';
+            }
+        }
+        if ((int)res.size() > 3) return {};
+    }
+    if (tmp != -1) res.emplace_back(tmp);
+    if ((int)res.size() > 3) return {};
+    return res;
 }

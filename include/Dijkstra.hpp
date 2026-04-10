@@ -114,8 +114,8 @@ struct Dijkstra: Gengine {
         tmp.clear();
         for (auto& x: con) {
             tmp[x.first] = 1;
-            x.second.clear();
         }
+        con.clear();
         for (const Textform& T: data.textforms) {
             auto t = parse(T.text);
             for (int i = 0; i < std::min(2, (int)t.size()); i++) {
@@ -128,6 +128,9 @@ struct Dijkstra: Gengine {
                     cnvid[u] = rani();
                 } else {
                     std::string num = std::to_string(u);  
+                    pos[u] = sf::Vector2f{
+                        1.f * rani(240 + gnodesize, 840 - gnodesize), 1.f * rani(gnodesize, 600 - gnodesize)
+                    };
                     for (const Gnode& x: f.gnodes) {
                         if (x.text == num) {
                             pos[u] = x.pos;
@@ -149,7 +152,6 @@ struct Dijkstra: Gengine {
                 pos.erase(i);
                 con.erase(i);
                 cnvid.erase(i);
-                tmp.erase(i);
             }
         }
         for (auto &u: con) {

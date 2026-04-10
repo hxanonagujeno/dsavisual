@@ -18,8 +18,8 @@ struct Controls {
         buttons.emplace_back(sf::Vector2f{71.0f, 156.f}, sf::Vector2f{72.00f, 24.0f}, "Prim", 6, 12);
         buttons.emplace_back(sf::Vector2f{148.f, 156.f}, sf::Vector2f{72.00f, 24.0f}, "Dijkstra", 7, 12);
         buttons.emplace_back(sf::Vector2f{71.0f, 205.f}, sf::Vector2f{72.00f, 24.0f}, "Clear", 10, 12);
-        buttons.emplace_back(sf::Vector2f{148.f, 205.f}, sf::Vector2f{72.00f, 24.0f}, "Randomize", 11, 12);
-        buttons.emplace_back(sf::Vector2f{71.0f, 234.f}, sf::Vector2f{72.00f, 24.0f}, "Erase line", 12, 12);
+        buttons.emplace_back(sf::Vector2f{148.f, 205.f}, sf::Vector2f{72.00f, 24.0f}, "Generate", 11, 12);
+        buttons.emplace_back(sf::Vector2f{71.0f, 234.f}, sf::Vector2f{72.00f, 24.0f}, "Clear line", 12, 12);
         buttons.emplace_back(sf::Vector2f{148.f, 234.f}, sf::Vector2f{72.00f, 24.0f}, "Gen line", 13, 12);
     }
 

@@ -65,6 +65,7 @@ struct Linearprobing {
                 g.gnodes[i].color = sf::Color::Cyan;
                 graphs.emplace_back(); graphs.back().copy(g, 3);
                 g.gnodes[i].color = defnodecol;
+                graphs.emplace_back(); graphs.back().copy(g, 3);
                 return i;
             }
 			if (vals[i].empty()) break;

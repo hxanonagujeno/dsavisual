@@ -5,29 +5,6 @@
 #include <Graph.hpp>
 
 struct Gengine {
-    std::vector<int> parse(const std::string& s) {
-        std::vector<int> res;
-        int tmp = -1;
-        for (char c: s) {
-            if (isspace(c)) {
-                if (tmp != -1) {
-                    res.emplace_back(tmp);
-                    tmp = -1;
-                }
-            } else {
-                if (isdigit(c)) {
-                    if (tmp == -1) tmp = 0;
-                    if (tmp >= 1e8) return {};
-                    tmp = tmp * 10 + c - '0';
-                }
-            }
-            if ((int)res.size() > 3) return {};
-        }
-        if (tmp != -1) res.emplace_back(tmp);
-        if ((int)res.size() > 3) return {};
-        return res;
-    }
-
     std::set<std::pair<std::pair<int, int>, int>> edges;
     std::map<int, sf::Vector2f> pos;
     std::map<int, std::set<std::pair<int, int>>> con;
@@ -43,11 +20,12 @@ struct Gengine {
         pos.clear();
         con.clear();
         cnvid.clear();
+        tmp.clear();
     }
 
     sf::Vector2f getmov1(sf::Vector2f a, sf::Vector2f b) {
         a -= b;
-        float x = sqrlen(a);
+        float x = std::max(sqrlen(a), 1e-6f);
         a = pow(x, -1.5) * a;
         return a;
     }
@@ -55,7 +33,7 @@ struct Gengine {
     sf::Vector2f getmov2(sf::Vector2f a, sf::Vector2f b) {
         a -= b;
         float x = sqrt(sqrlen(a));
-        return a * ((x - 100) / x) * -0.03f;
+        return a * ((x - 100) / std::max(x, 1e-4f)) * -0.03f;
     }
 
     sf::Vector2f getmov(int t, float k = 1.2e4) {
@@ -78,7 +56,7 @@ struct Gengine {
         total = k * total;
         for (const auto& z: con[t]) {
             if (z.first != t) {
-                total += getmov2(cur, pos[z.first]) * std::max(1.0f, k * 0.002f);
+                total += getmov2(cur, pos[z.first]);
             }
         }
         float len = sqrt(sqrlen(total));
@@ -88,9 +66,13 @@ struct Gengine {
 
     void recreate(Graph& g, bool regraph = 0) {
         if (regraph) {
-            for (int reps = 1000; reps >= 1; reps--) {
+            for (int reps = 500; reps >= 1; reps--) {
                 for (auto& z: pos) {
                     z.second += getmov(z.first, (reps + 36) * 50.0f);
+                    if (_isnan(z.second.x) || _isnan(z.second.y)) {
+                        z.second.x = 1.f * rani(240 + gnodesize, 840 - gnodesize);
+                        z.second.y = 1.f * rani(gnodesize, 600 - gnodesize);
+                    }
                     mxz(z.second.x, 240.0f + gnodesize);
                     mnz(z.second.x, 840.0f - gnodesize);
                     mxz(z.second.y, 0.000f + gnodesize);

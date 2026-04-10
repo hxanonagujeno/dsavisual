@@ -26,6 +26,14 @@ void init() {
     data.import("assets/example.txt");
     structures.load(data);
     structuremode = 2;
+    for (char i = '0'; i <= '9'; i++) {
+        chrdig.emplace_back(i);
+    }
+    for (char i = 'A'; i <= 'Z'; i++) {
+        chrabc.emplace_back(i);
+    }
+    chrtpb.insert(chrtpb.end(), chrdig.begin(), chrdig.end());
+    chrtpb.insert(chrtpb.end(), chrabc.begin(), chrabc.end());
     memset(buttonevent, 0, sizeof(buttonevent));
 }
 

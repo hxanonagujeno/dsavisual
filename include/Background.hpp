@@ -31,7 +31,7 @@ struct Background {
         groupers[1].setSize({210, 92});
         groupers[1].setPosition({15, 93});
         groupers[1].setFillColor(Wwhite2);
-        groupers[2].setSize({210, 387});
+        groupers[2].setSize({210, 388});
         groupers[2].setPosition({15, 200});
         groupers[2].setFillColor(Wwhite2);
 
