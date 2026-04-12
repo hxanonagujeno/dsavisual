@@ -6,6 +6,8 @@
 
 struct Controls {
     std::vector<Button> buttons;
+    int deltasize = 0;
+    int checkwait = 0;
 
     Controls() {
         buttons.emplace_back(sf::Vector2f{148.f, 20.0f}, sf::Vector2f{72.00f, 53.0f}, "Animate!", 1, 12);
@@ -27,12 +29,29 @@ struct Controls {
         for (Button& t: buttons) {
             t.check();
         }
+        if (!checkwait && event.type == sf::Event::KeyPressed) {
+            if (event.key.code == sf::Keyboard::Add || (event.key.code == sf::Keyboard::Equal && event.key.shift)) {
+                deltasize = 1;
+                checkwait = 1;
+            } else 
+            if (event.key.code == sf::Keyboard::Hyphen || event.key.code == sf::Keyboard::Subtract) {
+                deltasize = -1;
+                checkwait = 1;
+            }
+        }
+        if (event.type == sf::Event::KeyReleased) {
+            checkwait = 0;
+        }
     }
 
     void tick() {
         for (Button& t: buttons) {
             t.tick();
         }
+        gnodesize += deltasize;
+        mnz(gnodesize, 30);
+        mxz(gnodesize, 10);
+        deltasize = 0;
     }
 
     void display() {

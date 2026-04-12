@@ -23,9 +23,9 @@ sf::Color nocolor = {0, 0, 0, 0};
 sf::Color transparent = {0, 0, 0, 128};
 sf::Color solid = {0, 0, 0, 255};
 
-const int gnodesize = 20;
-const int gedgesize = 1;
-const int inf = 2e9;
+int gnodesize = 20;
+int gedgesize = 1;
+int inf = 2e9;
 
 const float pi = 3.14159265358793f;
 const float e = 2.718281828459045f;
@@ -122,22 +122,6 @@ extern sf::RenderWindow window;
 extern sf::Event event;
 extern sf::Font font;
 
-void reglobe() {
-    for (int i = 2; i <= 7; i++) if (buttonevent[i]) {
-        structuremode = i;
-        break;
-    }
-    if (buttonevent[8]) {
-        stepbystep ^= 1;
-    }
-    if (buttonevent[9]) {
-        animationtime += (animationtime < 0.5f? 0.10f: 0.25f);
-        if (animationtime == 1.75f) animationtime = 0.10f;
-    }
-    memset(buttonevent, 0, sizeof(buttonevent));
-    memset(keyboardvis, 0, sizeof(keyboardvis));
-}
-
 std::vector<int> parse(const std::string& s) {
     std::vector<int> res;
     int tmp = -1;
@@ -159,4 +143,20 @@ std::vector<int> parse(const std::string& s) {
     if (tmp != -1) res.emplace_back(tmp);
     if ((int)res.size() > 3) return {};
     return res;
+}
+
+void reglobe() {
+    for (int i = 2; i <= 7; i++) if (buttonevent[i]) {
+        structuremode = i;
+        break;
+    }
+    if (buttonevent[8]) {
+        stepbystep ^= 1;
+    }
+    if (buttonevent[9]) {
+        animationtime += (animationtime < 0.5f? 0.10f: 0.25f);
+        if (animationtime == 1.75f) animationtime = 0.10f;
+    }
+    memset(buttonevent, 0, sizeof(buttonevent));
+    memset(keyboardvis, 0, sizeof(keyboardvis));
 }
