@@ -86,6 +86,20 @@ struct Background {
         for (const auto& separator: separators) {
             window.draw(separator);
         }
+        for (int i = 1; i < 16; i++) {
+            sf::RectangleShape lne;
+            lne.setSize({1, 600});
+            lne.setPosition({240 + 600.0f * i / 16.0f, 0});
+            lne.setFillColor(Wwhite);
+            window.draw(lne);
+        }
+        for (int i = 1; i < 16; i++) {
+            sf::RectangleShape lne;
+            lne.setSize({600, 1});
+            lne.setPosition({240, 600.0f * i / 16.0f});
+            lne.setFillColor(Wwhite);
+            window.draw(lne);
+        }
         for (const auto& icondraw: icondraws) {
             window.draw(icondraw);
         }

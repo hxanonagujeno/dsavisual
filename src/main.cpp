@@ -23,7 +23,7 @@ void init() {
     font.loadFromFile("assets/segoeui.ttf");
     font.setSmooth(0);
     background.init();
-    data.import("assets/example.txt");
+    data.import("files/input.txt");
     structures.load(data);
     structuremode = 2;
     for (char i = '0'; i <= '9'; i++) {
@@ -59,7 +59,6 @@ void display() {
     data.display();
     structures.display();
     codedisplay.display();
-    
     window.display();
 }
 
