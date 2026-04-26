@@ -294,6 +294,17 @@ struct Twothreefour {
             }
         }
         cnt = dnt;
+
+        if (data.lstfocus != -1) {
+            std::vector<int> tmp = parse(data.textforms[data.lstfocus].text);
+            if (!tmp.empty()) {
+                int p = find(g, graphs, rut, tmp[0]);
+                g.gnodes[p].color = sf::Color::Cyan;
+                graphs.emplace_back(); graphs.back().copy(g, 0);
+                g.gnodes[p].color = defnodecol;
+                graphs.emplace_back(); graphs.back().copy(g, 0);
+            }
+        }
         
         if (graphs.empty()) {
             graphs.emplace_back(); graphs.back().copy(g, 0);
